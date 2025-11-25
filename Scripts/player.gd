@@ -1,6 +1,6 @@
 extends Character2D
 
-@export var weapon: PhysicsWeapon
+var weapon: PhysicsWeapon
 var can_rotate_weapon: bool = true
 
 signal wpn_rotate(dir:bool)
@@ -63,3 +63,8 @@ func get_ui_direction() -> Vector2:
 					ui_direction += Vector2.RIGHT
 
 	return ui_direction.normalized()
+
+
+func _on_tree_entered() -> void:
+	var game:Node = get_tree().get_root().get_node("Game")
+	game.player = self

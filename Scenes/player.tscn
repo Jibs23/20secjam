@@ -1,0 +1,93 @@
+[gd_scene load_steps=12 format=3 uid="uid://dg382sc10qhfs"]
+
+[ext_resource type="Script" uid="uid://dsc3muhjtycr" path="res://Scripts/player.gd" id="1_f1ek2"]
+[ext_resource type="Texture2D" uid="uid://da2vwloqbe6g" path="res://icon.svg" id="2_tx1dd"]
+[ext_resource type="Script" uid="uid://d3farf02gkq8e" path="res://Scripts/health.gd" id="3_gymyn"]
+[ext_resource type="Script" uid="uid://cyjyqi8i32o3x" path="res://Scripts/states/player_idle.gd" id="5_3smsa"]
+[ext_resource type="Script" uid="uid://b3u4aiy6bgk1c" path="res://Scripts/Classes/finite_state_machine.gd" id="5_ukyrk"]
+[ext_resource type="Script" uid="uid://ddfpfoed6crvm" path="res://Scripts/states/move_dir.gd" id="6_3smsa"]
+[ext_resource type="Script" uid="uid://bnc6cyfk50dj" path="res://Scripts/Classes/physicsWeapon.gd" id="8_fd4e3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f1ek2"]
+size = Vector2(126, 126)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1l0tm"]
+
+[sub_resource type="Curve" id="Curve_ldgsr"]
+_limits = [0.0, 2.0, 0.0, 2.0]
+_data = [Vector2(0.59903383, 0), 0.0, -0.015957355, 0, 0, Vector2(0.9951691, 1.0018502), -0.22630616, -0.22630616, 0, 0, Vector2(2, 2), 2.4115677, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v158k"]
+size = Vector2(46, 99)
+
+[node name="Player" type="RigidBody2D" node_paths=PackedStringArray("sprite_sheet", "health_component", "state_machine") groups=["player"]]
+collision_layer = 4
+collision_mask = 4
+mass = 50.0
+lock_rotation = true
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_f1ek2")
+sprite_sheet = NodePath("Sprite2D")
+health_component = NodePath("HealthComponent")
+state_machine = NodePath("StateMachine")
+metadata/_custom_type_script = "uid://b3rwp6d7gjlcf"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_tx1dd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_f1ek2")
+
+[node name="HealthComponent" type="Node" parent="." node_paths=PackedStringArray("shape_to_flash")]
+script = ExtResource("3_gymyn")
+shape_to_flash = NodePath("../CollisionShape2D")
+metadata/_custom_type_script = "uid://d3farf02gkq8e"
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "actor")]
+script = ExtResource("5_ukyrk")
+initial_state = NodePath("Idle")
+actor = NodePath("..")
+metadata/_custom_type_script = "uid://b3u4aiy6bgk1c"
+
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("move_state", "state_idle")]
+script = ExtResource("5_3smsa")
+move_state = NodePath("../Move")
+state_idle = NodePath(".")
+metadata/_custom_type_script = "uid://dkheav4fupoy2"
+
+[node name="Move" type="Node" parent="StateMachine" node_paths=PackedStringArray("state_idle")]
+script = ExtResource("6_3smsa")
+state_idle = NodePath("../Idle")
+metadata/_custom_type_script = "uid://swwpijbfoat8"
+
+[node name="Weapon" type="RigidBody2D" parent="."]
+collision_layer = 256
+collision_mask = 4
+physics_material_override = SubResource("PhysicsMaterial_1l0tm")
+center_of_mass_mode = 1
+center_of_mass = Vector2(275, 0)
+contact_monitor = true
+max_contacts_reported = 1
+angular_damp = 3.0
+script = ExtResource("8_fd4e3")
+dmg_threshold = SubResource("Curve_ldgsr")
+metadata/_custom_type_script = "uid://bnc6cyfk50dj"
+
+[node name="PinJoint2D" type="PinJoint2D" parent="Weapon"]
+node_a = NodePath("..")
+node_b = NodePath("../..")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Weapon"]
+position = Vector2(296, -1)
+shape = SubResource("RectangleShape2D_v158k")
+debug_color = Color(0.96070737, 2.8878452e-07, 0.5172369, 0.41960785)
+
+[connection signal="action_1" from="." to="StateMachine" method="_on_actor_input_action_1"]
+[connection signal="action_2" from="." to="StateMachine" method="_on_actor_input_action_2"]
+[connection signal="hit" from="." to="HealthComponent" method="_on_value_received"]
+[connection signal="input_dir" from="." to="StateMachine" method="_on_actor_input_dir"]
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="health_empty" from="HealthComponent" to="." method="die"]
+[connection signal="body_entered" from="Weapon" to="Weapon" method="_on_body_entered"]

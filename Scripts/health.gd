@@ -57,5 +57,13 @@ func is_alive() -> bool:
 
 func _on_value_received(damage:int, from:Node) -> void:
 	print("Taking %d damage from %s" % [damage, str(from)])
+	flash_shape(shape_to_flash)
 	hurt(damage)
 	
+@export var shape_to_flash: CollisionShape2D
+func flash_shape(shape:CollisionShape2D):
+	if not shape: return
+	var original_modulate:Color = shape.modulate
+	shape.modulate = Color(1, 0, 0)
+	await get_tree().create_timer(0.1).timeout
+	shape.modulate = original_modulate

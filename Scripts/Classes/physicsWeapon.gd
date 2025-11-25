@@ -5,8 +5,15 @@ class_name PhysicsWeapon
 @export var swing_cooldown: float = 2
 @export var swing_distance:float = 90
 @export var rotation_speed: float = 2
+@export var dmg_threshold: Curve = Curve.new()
 var max_speed:float = 2
 var swing_cooldown_timer: Timer
+
+var dmg: int:
+	get:
+		var output:int = dmg_threshold.sample(abs(angular_velocity)) 
+		return output
+
 
 func add_rotation(dir:bool,amount:float):
 	if dir:
@@ -69,7 +76,19 @@ func _enter_tree() -> void:
 		return
 	player = get_parent() 
 	player.weapon = self
-	print(self.name," set as player weapon.")
 	player.connect("action_1", Callable(self,"wpn_action_1"))
 	player.connect("action_2", Callable(self,"wpn_action_2"))
 	player.connect("wpn_rotate",Callable(self,"rotate_weapon"))
+	print(self.name," set as player weapon.")
+
+func _on_body_entered(body: Node) -> void:
+	if body.is_in_group("enemy"):
+		print("Weapon collided with ", body.name)
+		if dmg <= 0:
+			print("No damage to deal.")
+			return
+		if body.has_signal("hit"):
+			body.emit_signal("hit", dmg, self)
+			print("Dealt ", dmg, " damage to ", body.name)
+		else:
+			print(body.name, " has no 'hit' signal to deal damage to.")
