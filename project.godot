@@ -11,10 +11,17 @@ config_version=5
 [application]
 
 config/name="20secBulletHell"
+config/tags=PackedStringArray("jam")
 run/main_scene="uid://d35vcl273s34i"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 run/max_fps=60
 config/icon="res://icon.svg"
+
+[debug]
+
+gdscript/warnings/unused_variable=0
+gdscript/warnings/unused_parameter=0
+gdscript/warnings/unused_signal=0
 
 [display]
 

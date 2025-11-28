@@ -26,6 +26,7 @@ metadata/_custom_type_script = "uid://lp0wln500jpy"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
 shape = ExtResource("2_tm0ch")
+debug_color = Color(0.95, 0, 0.58583343, 1)
 
 [node name="HealthComponent" type="Node" parent="." node_paths=PackedStringArray("shape_to_flash")]
 script = ExtResource("3_tm0ch")

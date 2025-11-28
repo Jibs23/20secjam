@@ -68,3 +68,4 @@ func get_ui_direction() -> Vector2:
 func _on_tree_entered() -> void:
 	var game:Node = get_tree().get_root().get_node("Game")
 	game.player = self
+

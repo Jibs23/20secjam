@@ -6,19 +6,29 @@ extends Label
 @export var referenced_variable: String = ""
 @export var target_node: Node = null
 @export_category("Debug Format")
-@export var deg_to_rad: bool = false
-@export var rad_to_deg: bool = false
+@export var use_deg_to_rad: bool = false
+@export var use_rad_to_deg: bool = false
+@export var use_snapping: bool = false
+@export var decimals: int = 2
+@export var vector_length_conversion: bool = false
+@export var absolute_value: bool = true
 
 var label_text: String = text
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if debug_mode and target_node and referenced_variable != "":
 		if referenced_variable in target_node:
 			var variable = target_node.get(referenced_variable)
-			if deg_to_rad and typeof(variable) == TYPE_FLOAT:
+			if use_deg_to_rad and typeof(variable) == TYPE_FLOAT:
 				variable = deg_to_rad(variable)
-			elif rad_to_deg and typeof(variable) == TYPE_FLOAT:
+			elif use_rad_to_deg and typeof(variable) == TYPE_FLOAT:
 				variable = rad_to_deg(variable)
+			if vector_length_conversion and typeof(variable) == TYPE_VECTOR2:
+				variable = variable.length()
+			if absolute_value and typeof(variable) == TYPE_FLOAT:
+				variable = abs(variable)
+			if use_snapping and typeof(variable) == TYPE_FLOAT:
+				variable = snapped(variable, pow(10, -decimals))
 			text = str(label_text," ", str(variable))
 		else:
 			text = "Variable not found"

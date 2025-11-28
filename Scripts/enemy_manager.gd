@@ -8,6 +8,7 @@ func _on_tree_entered() -> void:
 	game = get_tree().get_root().get_node("Game")
 	player = game.player
 	spawn_timer = $SpawnTimer
+	game.enemy_manager = self
 
 var last_player_position: Vector2 = Vector2.ZERO
 func player_position() -> Vector2:
@@ -52,4 +53,4 @@ func _on_timer_timeout() -> void:
 	var enemy: PackedScene = enemies.values()[randi() % enemies.size()]
 	var spawn_point: Marker2D = spawn_points[randi() % spawn_points.size()]
 	var new_enemy = add_enemy(enemy, spawn_point.global_position)
-	print("Spawned " + str(new_enemy.name) + " at %s" % str(spawn_point.global_position))
+	#print("Spawned " + str(new_enemy.name) + " at %s" % str(spawn_point.global_position))

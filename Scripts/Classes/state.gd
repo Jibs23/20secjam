@@ -9,8 +9,6 @@ var input_dir: Vector2 = Vector2.ZERO
 var input_action_1: bool = false
 var input_action_2: bool = false
 
-## Used by the stateMachine to talk to the AnimationPlayer and swap animations.
-@export var animation_id: String = ""
 
 ## The path to the idle state node, for transitions. Becomes a string when called.
 @export var state_idle: State

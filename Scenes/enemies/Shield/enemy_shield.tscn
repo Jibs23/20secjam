@@ -14,7 +14,7 @@
 bounce = 0.2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wgm1h"]
-size = Vector2(24, 11)
+size = Vector2(28, 13)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tu8kc"]
 radius = 91.02197
@@ -39,17 +39,16 @@ physics_material_override = SubResource("PhysicsMaterial_wgm1h")
 script = ExtResource("2_tu8kc")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Shield"]
-position = Vector2(0, -5.5)
+position = Vector2(0, -6.5)
 shape = SubResource("RectangleShape2D_wgm1h")
-debug_color = Color(0.5913, 0.624105, 0.81, 0.5803922)
+debug_color = Color(0.5913, 0.624105, 0.81, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
 shape = ExtResource("2_epr0g")
-debug_color = Color(0.4117647, 0.47058824, 1, 0.41960785)
+debug_color = Color(0.41000003, 0.4690001, 1, 1)
 
 [node name="HealthComponent" type="Node" parent="." node_paths=PackedStringArray("shape_to_flash")]
 script = ExtResource("3_hffj4")
-max_health = 2
 shape_to_flash = NodePath("../CollisionShape2D")
 metadata/_custom_type_script = "uid://d3farf02gkq8e"
 

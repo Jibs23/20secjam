@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dg382sc10qhfs"]
+[gd_scene load_steps=13 format=3 uid="uid://dg382sc10qhfs"]
 
 [ext_resource type="Script" uid="uid://dsc3muhjtycr" path="res://Scripts/player.gd" id="1_f1ek2"]
 [ext_resource type="Texture2D" uid="uid://da2vwloqbe6g" path="res://icon.svg" id="2_tx1dd"]
@@ -14,14 +14,11 @@
 radius = 30.016663
 
 [sub_resource type="Curve" id="Curve_ldgsr"]
-_limits = [0.0, 2.0, 0.0, 1.0012499]
-_data = [Vector2(0, 0), 0.0, 1.8722396, 0, 0, Vector2(0.25031248, 1), 5.9925127, 5.9925127, 0, 0, Vector2(1.0012499, 2), 3.018081, 0.0, 0, 0]
-point_count = 3
+_limits = [1.0, 2.0, 0.0, 1.0012499]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.9912374, 1.98), 2.4397044, 0.0, 0, 0]
+point_count = 2
 metadata/_snap_enabled = true
 metadata/_snap_count = 100
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_v158k"]
-size = Vector2(46, 99)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f1ek2"]
 radius = 58.0
@@ -66,7 +63,8 @@ metadata/_custom_type_script = "uid://dkheav4fupoy2"
 
 [node name="Move" type="Node" parent="StateMachine" node_paths=PackedStringArray("state_idle")]
 script = ExtResource("6_3smsa")
-move_speed = 1000.0
+max_move_speed = 300.0
+acceleration = 1200.0
 state_idle = NodePath("../Idle")
 metadata/_custom_type_script = "uid://swwpijbfoat8"
 
@@ -76,11 +74,12 @@ collision_mask = 12
 center_of_mass_mode = 1
 center_of_mass = Vector2(25, 0)
 inertia = 30.0
+continuous_cd = 2
 contact_monitor = true
 max_contacts_reported = 10
-angular_damp = 2.0
+angular_damp = 19.151
 script = ExtResource("8_fd4e3")
-swing_distance = 8.726646259971648
+max_dmg_speed = 9.773843811168245
 dmg_threshold = SubResource("Curve_ldgsr")
 metadata/_custom_type_script = "uid://bnc6cyfk50dj"
 
@@ -89,10 +88,9 @@ node_a = NodePath("../..")
 node_b = NodePath("..")
 softness = 0.5
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Weapon"]
+[node name="CollisionShape2D2" type="CollisionPolygon2D" parent="Weapon"]
 position = Vector2(128, 0)
-shape = SubResource("RectangleShape2D_v158k")
-debug_color = Color(0.96070737, 2.8878452e-07, 0.5172369, 0.41960785)
+polygon = PackedVector2Array(-24, 0, -16, 32, 16, 32, 24, 0, 16, -32, -16, -32)
 
 [node name="Personal Space" type="Area2D" parent="."]
 visible = false
@@ -103,7 +101,7 @@ script = ExtResource("8_8erm5")
 shape = SubResource("CircleShape2D_f1ek2")
 debug_color = Color(0.92681, 0.9257303, 1, 0.08235294)
 
-[node name="Label" type="Label" parent="." node_paths=PackedStringArray("target_node")]
+[node name="Velocity" type="Label" parent="." node_paths=PackedStringArray("target_node")]
 offset_left = -61.0
 offset_top = -56.0
 offset_right = 62.0
@@ -112,9 +110,10 @@ text = "Angular_velocity: "
 script = ExtResource("9_f1ek2")
 referenced_variable = "angular_velocity"
 target_node = NodePath("../Weapon")
-rad_to_deg = true
+use_rad_to_deg = true
+use_snapping = true
 
-[node name="Label2" type="Label" parent="." node_paths=PackedStringArray("target_node")]
+[node name="HP" type="Label" parent="." node_paths=PackedStringArray("target_node")]
 offset_left = -27.0
 offset_top = -76.0
 offset_right = 25.0
@@ -123,6 +122,18 @@ text = "HP"
 script = ExtResource("9_f1ek2")
 referenced_variable = "current_health"
 target_node = NodePath("../HealthComponent")
+
+[node name="speed" type="Label" parent="." node_paths=PackedStringArray("target_node")]
+offset_left = -32.0
+offset_top = 32.0
+offset_right = 20.0
+offset_bottom = 55.0
+text = "speed"
+script = ExtResource("9_f1ek2")
+referenced_variable = "linear_velocity"
+target_node = NodePath("..")
+use_snapping = true
+vector_length_conversion = true
 
 [connection signal="action_1" from="." to="StateMachine" method="_on_actor_input_action_1"]
 [connection signal="action_2" from="." to="StateMachine" method="_on_actor_input_action_2"]
