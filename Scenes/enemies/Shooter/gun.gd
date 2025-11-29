@@ -23,15 +23,5 @@ func shoot() -> void:
 
 func _on_timer_timeout() -> void:
 	if actor.manager.player_position() == Vector2.ZERO: return
-	if !_on_screen: 
-		print("Not on screen, not shooting")
-		return
 	shoot()
 
-var _on_screen: bool = false
-
-func _on_visible_on_screen_enabler_2d_screen_entered() -> void:
-	_on_screen = true
-
-func _on_visible_on_screen_enabler_2d_screen_exited() -> void:
-	_on_screen = false

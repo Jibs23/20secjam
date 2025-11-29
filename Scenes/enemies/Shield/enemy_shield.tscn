@@ -1,7 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://cuk2crwvpedu"]
 
 [ext_resource type="Script" uid="uid://dhjukqb0ph4qw" path="res://Scenes/enemies/Shield/enemy_shield.gd" id="1_wgm1h"]
-[ext_resource type="Shape2D" uid="uid://bbg450kn54ejt" path="res://Shapes/coll_norm.tres" id="2_epr0g"]
 [ext_resource type="Script" uid="uid://gj0p8riiisk1" path="res://Scenes/enemies/Shield/shield.gd" id="2_tu8kc"]
 [ext_resource type="Script" uid="uid://d3farf02gkq8e" path="res://Scripts/health.gd" id="3_hffj4"]
 [ext_resource type="Script" uid="uid://b3u4aiy6bgk1c" path="res://Scripts/Classes/finite_state_machine.gd" id="4_ixho8"]
@@ -10,11 +9,15 @@
 [ext_resource type="Script" uid="uid://sgyeob3hmfxb" path="res://Scripts/personal_space.gd" id="8_dp0xj"]
 [ext_resource type="Script" uid="uid://csrxxds2tne84" path="res://Scripts/debug_label.gd" id="9_pvw13"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_dp0xj"]
+radius = 15.769231
+
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wgm1h"]
-bounce = 0.2
+friction = 0.0
+bounce = 0.5
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wgm1h"]
-size = Vector2(28, 13)
+size = Vector2(37.692307, 21.307693)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tu8kc"]
 radius = 91.02197
@@ -32,23 +35,26 @@ health_component = NodePath("HealthComponent")
 state_machine = NodePath("StateMachine")
 metadata/_custom_type_script = "uid://lp0wln500jpy"
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
+scale = Vector2(2.6000001, 2.6000001)
+shape = SubResource("CircleShape2D_dp0xj")
+debug_color = Color(0.41000003, 0.4690001, 1, 1)
+
 [node name="Shield" type="StaticBody2D" parent="." groups=["shield"]]
 collision_layer = 8
-collision_mask = 256
+collision_mask = 264
 physics_material_override = SubResource("PhysicsMaterial_wgm1h")
 script = ExtResource("2_tu8kc")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Shield"]
-position = Vector2(0, -6.5)
+position = Vector2(0, -28.300001)
+scale = Vector2(2.6000001, 2.6000001)
 shape = SubResource("RectangleShape2D_wgm1h")
 debug_color = Color(0.5913, 0.624105, 0.81, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
-shape = ExtResource("2_epr0g")
-debug_color = Color(0.41000003, 0.4690001, 1, 1)
-
 [node name="HealthComponent" type="Node" parent="." node_paths=PackedStringArray("shape_to_flash")]
 script = ExtResource("3_hffj4")
+max_health = 3
 shape_to_flash = NodePath("../CollisionShape2D")
 metadata/_custom_type_script = "uid://d3farf02gkq8e"
 
@@ -89,10 +95,10 @@ shape = SubResource("CircleShape2D_tu8kc")
 debug_color = Color(0.92681, 0.9257303, 1, 0.08235294)
 
 [node name="Label" type="Label" parent="." node_paths=PackedStringArray("target_node")]
-offset_left = -23.0
-offset_top = -34.0
-offset_right = 29.0
-offset_bottom = -11.0
+offset_left = -28.0
+offset_top = -79.0
+offset_right = 24.0
+offset_bottom = -56.0
 text = "HP"
 script = ExtResource("9_pvw13")
 referenced_variable = "current_health"

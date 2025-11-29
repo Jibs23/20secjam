@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ResourceEnemy" load_steps=3 format=3 uid="uid://c5c71ucm7lbe1"]
+
+[ext_resource type="PackedScene" uid="uid://7r7nsiw5c1sh" path="res://Scenes/enemies/Shooter/enemy_shooter.tscn" id="1_ny1nt"]
+[ext_resource type="Script" uid="uid://d4ka5ya812dkf" path="res://Scripts/Classes/resource_enemy.gd" id="2_kh0y0"]
+
+[resource]
+script = ExtResource("2_kh0y0")
+enemy_name = "Enemy_shooter"
+acceleration = 200.0
+score_value = 25
+spawn_weight = 30.0
+scene = ExtResource("1_ny1nt")
+max_count = 5.0
+enemy_group = "enemy_shooter"
+metadata/_custom_type_script = "uid://d4ka5ya812dkf"

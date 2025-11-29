@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhkkwtbj6evh4"]
+
+[ext_resource type="Script" uid="uid://bpk50ydr541td" path="res://Scenes/effects/spawn_indicator/spawn_indicator.gd" id="1_bd1vc"]
+[ext_resource type="Texture2D" uid="uid://xudldn5k6nc" path="res://Assets/Editor Icons/icon_target.png" id="2_difjs"]
+
+[node name="SpawnIndicator" type="Node2D"]
+script = ExtResource("1_bd1vc")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(4.25, 4.25)
+texture = ExtResource("2_difjs")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

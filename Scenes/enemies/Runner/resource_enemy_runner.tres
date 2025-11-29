@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ResourceEnemy" load_steps=3 format=3 uid="uid://rhmwdl0nsbfj"]
+
+[ext_resource type="PackedScene" uid="uid://dgoy23tjkumpe" path="res://Scenes/enemies/Runner/enemy_runner.tscn" id="1_alq3t"]
+[ext_resource type="Script" uid="uid://d4ka5ya812dkf" path="res://Scripts/Classes/resource_enemy.gd" id="1_el7pi"]
+
+[resource]
+script = ExtResource("1_el7pi")
+enemy_name = "Enemy_Runner"
+spawn_weight = 70.0
+scene = ExtResource("1_alq3t")
+enemy_group = "enemy_runner"
+metadata/_custom_type_script = "uid://d4ka5ya812dkf"

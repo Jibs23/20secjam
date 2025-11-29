@@ -4,7 +4,15 @@ var weapon: PhysicsWeapon
 var can_rotate_weapon: bool = true
 
 signal wpn_rotate(dir:bool)
-	
+signal player_dead
+
+func die():
+	print("Player has died.")
+	player_dead.emit()
+	super()
+
+
+
 func _physics_process(_delta: float) -> void:
 	signal_dir(get_ui_direction())
 	wpn_actions()
@@ -68,12 +76,3 @@ func get_ui_direction() -> Vector2:
 func _on_tree_entered() -> void:
 	var game:Node = get_tree().get_root().get_node("Game")
 	game.player = self
-
-@onready var camera: Camera2D = $Camera2D
-
-func die() -> void:
-	get_tree().reload_current_scene()
-	camera.reparent(get_parent())
-	super()
-	print("Player has died. Reloading scene.")
-	

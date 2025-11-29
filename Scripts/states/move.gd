@@ -9,13 +9,17 @@ var moving_dir: Vector2:
 	get:
 		return actor.linear_velocity.normalized()
 
+@export var weapon: PhysicsWeapon
+
 func move(dir:Vector2) -> void:
 	if dir == Vector2.ZERO: return
 	if speed >= max_move_speed and dir.dot(moving_dir) > 0: return
 
-	actor.apply_central_force(Vector2(dir * acceleration))
 
-	#if actor.is_in_group("player"):
+	if actor.is_in_group("player"):
+		actor.apply_central_force(Vector2(dir * acceleration - weapon.linear_velocity))
 		#print("Moving with velocity: %s" % str(speed))
 		#print("Input direction: %s" % str(dir))
 		#print("Applied force: %s" % str(dir * acceleration))
+		return
+	actor.apply_central_force(Vector2(dir * acceleration))

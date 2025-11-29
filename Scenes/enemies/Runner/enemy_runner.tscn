@@ -1,7 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://dgoy23tjkumpe"]
 
 [ext_resource type="Script" uid="uid://lp0wln500jpy" path="res://Scripts/Classes/enemy.gd" id="1_quxat"]
-[ext_resource type="Shape2D" uid="uid://bbg450kn54ejt" path="res://Shapes/coll_norm.tres" id="2_tm0ch"]
 [ext_resource type="Script" uid="uid://d3farf02gkq8e" path="res://Scripts/health.gd" id="3_tm0ch"]
 [ext_resource type="Script" uid="uid://b3u4aiy6bgk1c" path="res://Scripts/Classes/finite_state_machine.gd" id="4_ulvqc"]
 [ext_resource type="Script" uid="uid://bw6hejvpvmqbb" path="res://Scripts/states/pursuit.gd" id="5_5d1s0"]
@@ -9,12 +8,14 @@
 [ext_resource type="Script" uid="uid://sgyeob3hmfxb" path="res://Scripts/personal_space.gd" id="7_vskj4"]
 [ext_resource type="Script" uid="uid://csrxxds2tne84" path="res://Scripts/debug_label.gd" id="8_w2043"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_vskj4"]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_w2043"]
 radius = 14.035668
 
 [node name="Enemy_runner" type="RigidBody2D" node_paths=PackedStringArray("health_component", "state_machine") groups=["enemy", "enemy_runner"]]
 collision_layer = 4
-collision_mask = 260
+collision_mask = 268
 lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 1
@@ -25,7 +26,7 @@ state_machine = NodePath("StateMachine")
 metadata/_custom_type_script = "uid://lp0wln500jpy"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
-shape = ExtResource("2_tm0ch")
+shape = SubResource("CircleShape2D_vskj4")
 debug_color = Color(0.95, 0, 0.58583343, 1)
 
 [node name="HealthComponent" type="Node" parent="." node_paths=PackedStringArray("shape_to_flash")]
