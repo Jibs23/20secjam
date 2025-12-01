@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cuk2crwvpedu"]
+[gd_scene load_steps=11 format=3 uid="uid://cuk2crwvpedu"]
 
 [ext_resource type="Script" uid="uid://dhjukqb0ph4qw" path="res://Scenes/enemies/Shield/enemy_shield.gd" id="1_wgm1h"]
 [ext_resource type="Script" uid="uid://gj0p8riiisk1" path="res://Scenes/enemies/Shield/shield.gd" id="2_tu8kc"]
@@ -9,23 +9,17 @@
 [ext_resource type="Script" uid="uid://sgyeob3hmfxb" path="res://Scripts/personal_space.gd" id="8_dp0xj"]
 [ext_resource type="Script" uid="uid://csrxxds2tne84" path="res://Scripts/debug_label.gd" id="9_pvw13"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_dp0xj"]
-radius = 15.769231
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wgm1h"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_dp0xj"]
 friction = 0.0
-bounce = 0.5
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wgm1h"]
-size = Vector2(37.692307, 21.307693)
+bounce = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tu8kc"]
 radius = 91.02197
 
 [node name="Enemy_shield" type="RigidBody2D" node_paths=PackedStringArray("health_component", "state_machine") groups=["enemy", "enemy_shield"]]
 collision_layer = 4
-collision_mask = 260
-mass = 2.0
+collision_mask = 772
+mass = 4.0
 lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 1
@@ -35,27 +29,40 @@ health_component = NodePath("HealthComponent")
 state_machine = NodePath("StateMachine")
 metadata/_custom_type_script = "uid://lp0wln500jpy"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
-scale = Vector2(2.6000001, 2.6000001)
-shape = SubResource("CircleShape2D_dp0xj")
-debug_color = Color(0.41000003, 0.4690001, 1, 1)
+[node name="body" type="Polygon2D" parent="."]
+scale = Vector2(3.7272727, 3.7272727)
+color = Color(0.396, 0.583, 0.6, 1)
+polygon = PackedVector2Array(0, -10.731707, -8.585365, -8.585365, -10.731707, 0, -8.585365, 8.585365, 0, 10.731707, 8.585365, 8.585365, 10.731707, 0, 8.585365, -8.585365)
 
-[node name="Shield" type="StaticBody2D" parent="." groups=["shield"]]
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="." groups=["player"]]
+visible = false
+scale = Vector2(2.6000001, 2.6000001)
+polygon = PackedVector2Array(-15.384616, 0, -12.307693, 12.307693, 0, 15.384616, 12.307693, 12.307693, 15.384616, 0)
+
+[node name="Shield" type="StaticBody2D" parent="." groups=["solid"]]
 collision_layer = 8
 collision_mask = 264
-physics_material_override = SubResource("PhysicsMaterial_wgm1h")
+physics_material_override = SubResource("PhysicsMaterial_dp0xj")
 script = ExtResource("2_tu8kc")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Shield"]
-position = Vector2(0, -28.300001)
-scale = Vector2(2.6000001, 2.6000001)
-shape = SubResource("RectangleShape2D_wgm1h")
-debug_color = Color(0.5913, 0.624105, 0.81, 1)
+[node name="shield" type="Polygon2D" parent="Shield"]
+color = Color(0.6478, 0.71416, 0.79, 1)
+polygon = PackedVector2Array(-56, 0, -48, -48, 0, -64, 48, -48, 56, 0, 40, 0, 31, -24, 16, -34, 9, -35, 4, -13, -4, -13, -9, -35, -17, -34, -31, -24, -40, 0)
 
-[node name="HealthComponent" type="Node" parent="." node_paths=PackedStringArray("shape_to_flash")]
+[node name="CollisionShape2D2" type="CollisionPolygon2D" parent="Shield"]
+visible = false
+position = Vector2(-2.4437904e-06, -28)
+scale = Vector2(2.6000001, 2.6000001)
+polygon = PackedVector2Array(-21.538462, 10.769231, 21.538462, 10.769231, 18.461538, -7.6923075, 9.399194e-07, -13.846154, -18.461538, -7.6923075)
+
+[node name="Polygon2D" type="Polygon2D" parent="Shield"]
+position = Vector2(-4, 4)
+color = Color(1, 0.74, 0.74, 0.40392157)
+polygon = PackedVector2Array(-16, 16, -2.724018, 22.423862, -12, 27, -6, 30, 6, 26, 17, 30, 23, 27, 12, 21, 26, 13, 18, 10, 6, 18, -7, 11)
+
+[node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_hffj4")
 max_health = 3
-shape_to_flash = NodePath("../CollisionShape2D")
 metadata/_custom_type_script = "uid://d3farf02gkq8e"
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "actor")]

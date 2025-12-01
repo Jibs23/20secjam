@@ -21,10 +21,10 @@ friction = 0.0
 bounce = 1.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i6g32"]
-size = Vector2(20, 800)
+size = Vector2(111.80005, 800)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1l0tm"]
-size = Vector2(1320, 20)
+size = Vector2(1479.8, 103.79999)
 
 [node name="Game" type="Node"]
 script = ExtResource("1_3dryh")
@@ -32,7 +32,7 @@ script = ExtResource("1_3dryh")
 [node name="Level" type="Node2D" parent="."]
 
 [node name="Player" parent="Level" instance=ExtResource("1_qxrlw")]
-position = Vector2(640, 400)
+position = Vector2(640, 384)
 
 [node name="Projectiles" type="Node2D" parent="Level"]
 
@@ -95,6 +95,7 @@ follow_viewport_enabled = true
 texture_repeat = 2
 position = Vector2(276, 585)
 texture = ExtResource("6_i6g32")
+texture_offset = Vector2(20, 9)
 texture_scale = Vector2(4, 4)
 polygon = PackedVector2Array(-667, -833, 1350, -852, 1348, 654, -604, 484)
 
@@ -106,29 +107,29 @@ drag_top_margin = 0.3
 drag_right_margin = 0.3
 drag_bottom_margin = 0.3
 
-[node name="Borders" type="StaticBody2D" parent="Level"]
+[node name="Borders" type="StaticBody2D" parent="Level" groups=["solid"]]
 position = Vector2(640.2, 400.2)
 collision_layer = 8
 collision_mask = 518
 physics_material_override = SubResource("PhysicsMaterial_ldgsr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Borders"]
-position = Vector2(650, 0)
+position = Vector2(695.89996, 0)
 shape = SubResource("RectangleShape2D_i6g32")
 debug_color = Color(0.9195, 1, 0.79, 1)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Level/Borders"]
-position = Vector2(-650, 0)
+position = Vector2(-696, 0)
 shape = SubResource("RectangleShape2D_i6g32")
 debug_color = Color(0.9195, 1, 0.79, 1)
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="Level/Borders"]
-position = Vector2(0, 410)
+position = Vector2(11.899963, 451.89996)
 shape = SubResource("RectangleShape2D_1l0tm")
 debug_color = Color(0.9195, 1, 0.79, 1)
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="Level/Borders"]
-position = Vector2(0, -410)
+position = Vector2(23.799988, -453)
 shape = SubResource("RectangleShape2D_1l0tm")
 debug_color = Color(0.9195, 1, 0.79, 1)
 

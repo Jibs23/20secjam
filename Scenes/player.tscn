@@ -1,17 +1,19 @@
-[gd_scene load_steps=13 format=3 uid="uid://dg382sc10qhfs"]
+[gd_scene load_steps=14 format=3 uid="uid://dg382sc10qhfs"]
 
 [ext_resource type="Script" uid="uid://dsc3muhjtycr" path="res://Scripts/player.gd" id="1_f1ek2"]
 [ext_resource type="Texture2D" uid="uid://da2vwloqbe6g" path="res://icon.svg" id="2_tx1dd"]
 [ext_resource type="Script" uid="uid://d3farf02gkq8e" path="res://Scripts/health.gd" id="3_gymyn"]
 [ext_resource type="Script" uid="uid://cyjyqi8i32o3x" path="res://Scripts/states/player_idle.gd" id="5_3smsa"]
 [ext_resource type="Script" uid="uid://b3u4aiy6bgk1c" path="res://Scripts/Classes/finite_state_machine.gd" id="5_ukyrk"]
-[ext_resource type="Script" uid="uid://ddfpfoed6crvm" path="res://Scripts/states/move_dir.gd" id="6_3smsa"]
+[ext_resource type="Script" uid="uid://ddfpfoed6crvm" path="res://Scripts/states/move_player.gd" id="6_3smsa"]
 [ext_resource type="Script" uid="uid://sgyeob3hmfxb" path="res://Scripts/personal_space.gd" id="8_8erm5"]
 [ext_resource type="Script" uid="uid://bnc6cyfk50dj" path="res://Scripts/Classes/physicsWeapon.gd" id="8_fd4e3"]
 [ext_resource type="Script" uid="uid://csrxxds2tne84" path="res://Scripts/debug_label.gd" id="9_f1ek2"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_3smsa"]
-radius = 30.016663
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_f1ek2"]
+friction = 0.0
+bounce = 1.0
+absorbent = true
 
 [sub_resource type="Curve" id="Curve_ldgsr"]
 _limits = [1.0, 2.0, 0.0, 1.0012499]
@@ -20,27 +22,71 @@ point_count = 2
 metadata/_snap_enabled = true
 metadata/_snap_count = 100
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_3smsa"]
+radius = 30.016663
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_f1ek2"]
 radius = 58.0
 
 [node name="Player" type="RigidBody2D" node_paths=PackedStringArray("sprite_sheet", "health_component", "state_machine") groups=["player"]]
 collision_layer = 6
 collision_mask = 524
+mass = 2.0
 lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 1
 linear_damp = 2.0
 script = ExtResource("1_f1ek2")
+debug_invincible = true
 sprite_sheet = NodePath("Sprite2D")
 health_component = NodePath("HealthComponent")
 state_machine = NodePath("StateMachine")
 metadata/_custom_type_script = "uid://b3rwp6d7gjlcf"
+
+[node name="Weapon" type="RigidBody2D" parent="." groups=["projectile_deflect", "weapon"]]
+position = Vector2(0, 82)
+collision_layer = 256
+collision_mask = 524
+mass = 2.0
+physics_material_override = SubResource("PhysicsMaterial_f1ek2")
+center_of_mass_mode = 1
+center_of_mass = Vector2(0, -70)
+inertia = 1.0
+continuous_cd = 2
+contact_monitor = true
+max_contacts_reported = 10
+script = ExtResource("8_fd4e3")
+min_dmg_speed = 400.0
+max_dmg_speed = 680.0
+dmg_threshold = SubResource("Curve_ldgsr")
+intertia_bounce = 600.0
+metadata/_custom_type_script = "uid://bnc6cyfk50dj"
+
+[node name="PinJoint2D" type="PinJoint2D" parent="Weapon"]
+position = Vector2(0, -82)
+node_a = NodePath("../..")
+node_b = NodePath("..")
+softness = 2.0
+
+[node name="shaft" type="Polygon2D" parent="Weapon"]
+color = Color(0.76, 0.76, 0.76, 1)
+polygon = PackedVector2Array(-8, -16, -8, -82, 0, -90, 8, -82, 8, -16)
+
+[node name="head" type="Polygon2D" parent="Weapon"]
+color = Color(0.69337386, 0.4972471, 0.5587386, 1)
+polygon = PackedVector2Array(-32, -18, 0, -26, 32, -18, 32, 0, 32, 14, 0, 22, -32, 14)
+
+[node name="CollisionShape2D2" type="CollisionPolygon2D" parent="Weapon"]
+visible = false
+rotation = 1.5707964
+polygon = PackedVector2Array(-34, 1.4861873e-06, -18, 32, -2, 32, 14, 32, 22, -9.616504e-07, 14, -32, -18, -32)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_tx1dd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_3smsa")
 
 [node name="HealthComponent" type="Node" parent="." node_paths=PackedStringArray("shape_to_flash")]
@@ -64,35 +110,11 @@ metadata/_custom_type_script = "uid://dkheav4fupoy2"
 
 [node name="Move" type="Node" parent="StateMachine" node_paths=PackedStringArray("weapon", "state_idle")]
 script = ExtResource("6_3smsa")
-max_move_speed = 300.0
-acceleration = 1200.0
+max_move_speed = 400.0
+acceleration = 2000.0
 weapon = NodePath("../../Weapon")
 state_idle = NodePath("../Idle")
 metadata/_custom_type_script = "uid://swwpijbfoat8"
-
-[node name="Weapon" type="RigidBody2D" parent="."]
-collision_layer = 256
-collision_mask = 524
-center_of_mass_mode = 1
-center_of_mass = Vector2(50, 0)
-inertia = 1.0
-continuous_cd = 2
-contact_monitor = true
-max_contacts_reported = 10
-angular_damp = 19.151
-script = ExtResource("8_fd4e3")
-max_dmg_speed = 9.773843811168245
-dmg_threshold = SubResource("Curve_ldgsr")
-metadata/_custom_type_script = "uid://bnc6cyfk50dj"
-
-[node name="PinJoint2D" type="PinJoint2D" parent="Weapon"]
-node_a = NodePath("../..")
-node_b = NodePath("..")
-softness = 0.5
-
-[node name="CollisionShape2D2" type="CollisionPolygon2D" parent="Weapon"]
-position = Vector2(128, 0)
-polygon = PackedVector2Array(-24, 0, -16, 32, 16, 32, 24, 0, 16, -32, -16, -32)
 
 [node name="Personal Space" type="Area2D" parent="."]
 visible = false
@@ -103,17 +125,15 @@ script = ExtResource("8_8erm5")
 shape = SubResource("CircleShape2D_f1ek2")
 debug_color = Color(0.92681, 0.9257303, 1, 0.08235294)
 
-[node name="Velocity" type="Label" parent="." node_paths=PackedStringArray("target_node")]
-visible = false
+[node name="Swing power" type="Label" parent="." node_paths=PackedStringArray("target_node")]
 offset_left = -61.0
 offset_top = -56.0
 offset_right = 62.0
 offset_bottom = -33.0
-text = "Angular_velocity: "
+text = "swing power:"
 script = ExtResource("9_f1ek2")
-referenced_variable = "angular_velocity"
+referenced_variable = "swing_power"
 target_node = NodePath("../Weapon")
-use_rad_to_deg = true
 use_snapping = true
 
 [node name="HP" type="Label" parent="." node_paths=PackedStringArray("target_node")]
@@ -127,7 +147,6 @@ referenced_variable = "current_health"
 target_node = NodePath("../HealthComponent")
 
 [node name="speed" type="Label" parent="." node_paths=PackedStringArray("target_node")]
-visible = false
 offset_left = -32.0
 offset_top = 32.0
 offset_right = 20.0
@@ -144,7 +163,7 @@ vector_length_conversion = true
 [connection signal="hit" from="." to="HealthComponent" method="_on_value_received"]
 [connection signal="input_dir" from="." to="StateMachine" method="_on_actor_input_dir"]
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
-[connection signal="health_empty" from="HealthComponent" to="." method="die"]
 [connection signal="body_entered" from="Weapon" to="Weapon" method="_on_body_entered"]
+[connection signal="health_empty" from="HealthComponent" to="." method="die"]
 [connection signal="body_entered" from="Personal Space" to="Personal Space" method="_on_body_entered"]
 [connection signal="body_exited" from="Personal Space" to="Personal Space" method="_on_body_exited"]

@@ -1,3 +1,4 @@
+@icon("res://Assets/Editor Icons/icon_character2d_enemy.png")
 extends Character2D
 class_name Enemy2D
 
@@ -16,7 +17,8 @@ func _on_body_entered(body: Node) -> void:
 	var entity = body
 	if entity.is_in_group("player"):
 		entity.hit.emit(1, self)
-		apply_central_impulse((entity.global_position + global_position).normalized() * bounce_force)
+		var dir:Vector2 = (self.global_position - entity.global_position).normalized()
+		apply_central_impulse(dir * bounce_force)
 		touched_player.emit(self)
 		print("Dealt 1 damage to player.")
 

@@ -1,5 +1,4 @@
-@icon("res://Assets/Editor Icons/icon_bullet.png")
-class_name Projectile extends Node2D
+
 
 var speed: float = 100.0
 var move_dir: Vector2 = Vector2.UP

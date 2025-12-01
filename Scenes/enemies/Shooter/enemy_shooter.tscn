@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://7r7nsiw5c1sh"]
+[gd_scene load_steps=12 format=3 uid="uid://7r7nsiw5c1sh"]
 
 [ext_resource type="Script" uid="uid://dodb1uf4web4t" path="res://Scenes/enemies/Shooter/enemy_shooter.gd" id="1_b3xtc"]
 [ext_resource type="Script" uid="uid://d3farf02gkq8e" path="res://Scripts/health.gd" id="3_4kvfp"]
@@ -9,7 +9,6 @@
 [ext_resource type="Script" uid="uid://csrxxds2tne84" path="res://Scripts/debug_label.gd" id="8_3q1cy"]
 [ext_resource type="Script" uid="uid://ct6f1rjjpxe0y" path="res://Scenes/enemies/Shooter/gun.gd" id="9_5sv12"]
 [ext_resource type="PackedScene" uid="uid://63mcicmr7q4n" path="res://Scenes/enemies/Shooter/bullet.tscn" id="10_rdk6o"]
-[ext_resource type="Texture2D" uid="uid://da2vwloqbe6g" path="res://icon.svg" id="11_qn8s6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rdk6o"]
 radius = 15.033297
@@ -19,7 +18,8 @@ radius = 63.03174
 
 [node name="Enemy_shooter" type="RigidBody2D" node_paths=PackedStringArray("move_state", "health_component", "state_machine") groups=["enemy", "enemy_runner"]]
 collision_layer = 4
-collision_mask = 268
+collision_mask = 780
+mass = 1.5
 lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 1
@@ -30,9 +30,20 @@ health_component = NodePath("HealthComponent")
 state_machine = NodePath("StateMachine")
 metadata/_custom_type_script = "uid://lp0wln500jpy"
 
+[node name="Polygon2D2" type="Polygon2D" parent="."]
+scale = Vector2(1.3636364, 1.3636364)
+color = Color(0, 0.45, 0.19500002, 1)
+polygon = PackedVector2Array(0, -11, -7, -7, -11, 0, -7, 7, 0, 8.8, 7, 7, 11, 0, 7, -7)
+
+[node name="Polygon2D3" type="Polygon2D" parent="."]
+position = Vector2(0, -1)
+scale = Vector2(1.4545455, 1.4545455)
+color = Color(0, 0.29374737, 0.2047185, 1)
+polygon = PackedVector2Array(0, -10.3125, -4.125, -9.625, -7, -7, -9.625, -4.125, -11, 0, -9.625, 0.6875, -4.125, 1.375, 4.125, 1.375, 9.625, 0.6875, 11, 0, 9.625, -4.125, 7, -7, 4.125, -9.625)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
+visible = false
 shape = SubResource("CircleShape2D_rdk6o")
-debug_color = Color(0.71359396, 0.4855485, 5.7756904e-07, 1)
 
 [node name="HealthComponent" type="Node" parent="." node_paths=PackedStringArray("shape_to_flash")]
 script = ExtResource("3_4kvfp")
@@ -67,7 +78,7 @@ valid_groups = Dictionary[String, int]({
 "enemy": 0,
 "enemy_flanker": 0,
 "enemy_runner": 0,
-"enemy_shield": 2,
+"enemy_shield": 0,
 "enemy_shooter": 1,
 "player": 0
 })
@@ -95,10 +106,13 @@ actor = NodePath("..")
 wait_time = 3.0
 autostart = true
 
-[node name="Sprite2D" type="Sprite2D" parent="GUN"]
-position = Vector2(23, 0)
-scale = Vector2(0.2109375, 0.046874996)
-texture = ExtResource("11_qn8s6")
+[node name="Polygon2D" type="Polygon2D" parent="GUN"]
+color = Color(0.7021825, 0.75126517, 0.7721084, 1)
+polygon = PackedVector2Array(15, -2, 36, -3, 36, -0.10458374, 36, 3, 15, 2, 11, 0)
+
+[node name="Polygon2D" type="Polygon2D" parent="GUN/Polygon2D"]
+color = Color(0, 0.056000013, 0.28, 0.5058824)
+polygon = PackedVector2Array(36, -2, 34, -2, 33, 0, 34, 2, 36, 2)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="hit" from="." to="HealthComponent" method="_on_value_received"]

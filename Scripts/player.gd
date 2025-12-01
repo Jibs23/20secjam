@@ -2,6 +2,12 @@ extends Character2D
 
 var weapon: PhysicsWeapon
 var can_rotate_weapon: bool = true
+var input_order: Array = []
+var dash_cooldown_timer: Timer
+
+@export var debug_invincible: bool = false
+@export var dash_power: float = 2000
+@export var dash_cooldown_duration: float = 2
 
 signal wpn_rotate(dir:bool)
 signal player_dead
@@ -11,30 +17,24 @@ func die():
 	player_dead.emit()
 	super()
 
+func _ready() -> void:
+	if debug_invincible:
+		health_component.max_health = 9999
+		health_component.current_health = 9999
 
+func dash() -> void:
+	if dash_cooldown_timer: return
+	var dir:Vector2 = get_ui_direction()
+	apply_central_impulse(dir * dash_power)
+	dash_cooldown_timer = _start_dash_cooldown(dash_cooldown_duration)
 
 func _physics_process(_delta: float) -> void:
 	signal_dir(get_ui_direction())
-	wpn_actions()
 
-func wpn_actions():
-	if Input.is_action_pressed("action_1"):
-		action_1.emit(true)
-	elif Input.is_action_just_released("action_1"):
-		action_1.emit(false)
-	
-	if Input.is_action_pressed("action_2"):
-		action_2.emit(true)
-	elif Input.is_action_just_released("action_2"):
-		action_2.emit(false)
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("dash"):
+		dash()
 
-	if Input.is_action_pressed("rotate_item_cw"):
-		wpn_rotate.emit(false)
-	elif Input.is_action_pressed("rotate_item_ccw"):
-		wpn_rotate.emit(true)
-
-
-var input_order: Array = []
 func get_ui_direction() -> Vector2:
 	# Update input order array
 	for action in ["move_up", "move_down", "move_left", "move_right"]:
@@ -76,3 +76,30 @@ func get_ui_direction() -> Vector2:
 func _on_tree_entered() -> void:
 	var game:Node = get_tree().get_root().get_node("Game")
 	game.player = self
+
+
+func wpn_actions():
+	if Input.is_action_pressed("action_1"):
+		action_1.emit(true)
+	elif Input.is_action_just_released("action_1"):
+		action_1.emit(false)
+	
+	if Input.is_action_pressed("action_2"):
+		action_2.emit(true)
+	elif Input.is_action_just_released("action_2"):
+		action_2.emit(false)
+
+	if Input.is_action_pressed("rotate_item_cw"):
+		wpn_rotate.emit(false)
+	elif Input.is_action_pressed("rotate_item_ccw"):
+		wpn_rotate.emit(true)
+
+func _start_dash_cooldown(time:float) -> Timer:
+	var timer = Timer.new()
+	timer.wait_time = time
+	timer.one_shot = true
+	timer.autostart = true
+	timer.connect("timeout", Callable(self, "_on_dash_cooldown_timeout"))
+	timer.connect("timeout", Callable(timer, "queue_free"))
+	add_child(timer)
+	return timer

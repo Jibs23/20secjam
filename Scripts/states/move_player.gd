@@ -6,3 +6,4 @@ func physics_update(_delta: float) -> void:
 	if input_dir == Vector2.ZERO:
 		transition.emit(state_idle)
 	move(input_dir)
+
