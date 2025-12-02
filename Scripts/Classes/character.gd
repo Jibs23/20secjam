@@ -2,9 +2,7 @@
 ## Used for 2D characters.
 class_name Character2D extends RigidBody2D
 
-@export var sprite_sheet: Sprite2D
 @export var health_component: HealthComponent 
-@export var animation_player: AnimationPlayer
 @export var state_machine: StateMachine
 var screen_check: VisibleOnScreenNotifier2D
 ## The last emitted direction, to account for Vector2.ZERO deadzone.

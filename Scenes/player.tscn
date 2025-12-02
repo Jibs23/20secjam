@@ -28,17 +28,17 @@ radius = 30.016663
 [sub_resource type="CircleShape2D" id="CircleShape2D_f1ek2"]
 radius = 58.0
 
-[node name="Player" type="RigidBody2D" node_paths=PackedStringArray("sprite_sheet", "health_component", "state_machine") groups=["player"]]
+[node name="Player" type="RigidBody2D" node_paths=PackedStringArray("health_component", "state_machine") groups=["player"]]
 collision_layer = 6
 collision_mask = 524
 mass = 2.0
+sleeping = true
 lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 1
 linear_damp = 2.0
 script = ExtResource("1_f1ek2")
 debug_invincible = true
-sprite_sheet = NodePath("Sprite2D")
 health_component = NodePath("HealthComponent")
 state_machine = NodePath("StateMachine")
 metadata/_custom_type_script = "uid://b3rwp6d7gjlcf"

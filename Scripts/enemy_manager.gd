@@ -1,28 +1,24 @@
 extends Node2D
 
-var game:Node
-var player: Character2D
 var spawn_timer: Timer
 @export var enemies_over_time: Curve = Curve.new()
 #@export var spawn_interval: Curve = Curve.new()
 @export var projectiles: Node2D
+@export var enemies: Array[ResourceEnemy]
+@export var spawn_points_node: Node
 
 func _on_tree_entered() -> void:
-	game = get_tree().get_root().get_node("Game")
-	player = game.player
+	Logic.enemy_manager = self
 	spawn_timer = $SpawnTimer
-	game.enemy_manager = self
+	spawn_timer.set_paused(true)
+	timer.set_paused(true)
 
 var last_player_position: Vector2 = Vector2.ZERO
 func player_position() -> Vector2:
-	if player:
-		return player.global_position
+	if Logic.player:
+		return Logic.player.global_position
 	return Vector2.ZERO
 
-@export var enemies: Array[ResourceEnemy]
-
-
-@export var spawn_points_node: Node
 var spawn_points: Array[Marker2D]:
 	get:
 		var points: Array[Marker2D] = []
@@ -79,8 +75,6 @@ func _calculate_spawn_weight(enemy: ResourceEnemy) -> float:
 		var limit_factor: float = clamp(1.0 - (float(count) / enemy_limit), 0.0, 1.0)
 		total_weight *= limit_factor
 	
-
-	
 	return total_weight
 
 func decide_enemy_to_spawn() -> ResourceEnemy:
@@ -91,7 +85,6 @@ func decide_enemy_to_spawn() -> ResourceEnemy:
 			sorted_by_weight.insert(0, enemy)
 		else:
 			sorted_by_weight.append(enemy)
-		
 	
 	output = sorted_by_weight[0]
 	var pick_second: bool = randf() < 0.15
@@ -104,13 +97,13 @@ func _on_timer_timeout() -> void:
 	if total_enemy_count >= enemies_over_time.sample(timer.time_left): return
 	var enemy: ResourceEnemy = decide_enemy_to_spawn()
 	var spawn_point: Marker2D = spawn_points[randi() % spawn_points.size()]
-
 	add_enemy(enemy, Vector2.ZERO)
 
 func _on_enemy_dead(enemy: Enemy2D) -> void:
 	for resource_enemy in enemies:
 		if enemy.is_in_group(resource_enemy.enemy_group):
 			resource_enemy.enemy_count -= 1
+			Logic.add_score(resource_enemy.score_value)
 			break
 
 func _spawn_indicator_at_position(pos: Vector2) -> Node2D:
@@ -119,3 +112,7 @@ func _spawn_indicator_at_position(pos: Vector2) -> Node2D:
 	add_child(indicator_instance)
 	indicator_instance.global_position = pos
 	return indicator_instance
+
+func toggle_enemy_spawn(enable: bool) -> void:
+	timer.set_paused(not enable)
+	spawn_timer.set_paused(not enable)

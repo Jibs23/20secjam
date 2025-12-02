@@ -15,7 +15,9 @@ func pick_camping_position() -> Vector2:
 	var direction_to_player: Vector2 = (player_location - global_position).normalized()
 	var deviation_angle: float = randf_range(30,-30)
 	direction_to_player = direction_to_player.rotated(deg_to_rad(deviation_angle))
-	location = clamp(player_location - (direction_to_player * distance_from_target), -Con.SCREEN_SIZE, Con.SCREEN_SIZE)
+	location = player_location - (direction_to_player * distance_from_target)
+	location.x = clamp(location.x, 0, Con.SCREEN_X)
+	location.y = clamp(location.y, 0, Con.SCREEN_Y)
 	
 	print("Picked camping position at %s" % str(location))
 	return location

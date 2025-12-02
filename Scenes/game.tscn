@@ -6,10 +6,10 @@
 [ext_resource type="Script" uid="uid://d4ka5ya812dkf" path="res://Scripts/Classes/resource_enemy.gd" id="4_1l0tm"]
 [ext_resource type="Script" uid="uid://csrxxds2tne84" path="res://Scripts/debug_label.gd" id="4_3dryh"]
 [ext_resource type="Resource" uid="uid://bxyk2negof4rj" path="res://Scenes/enemies/Shield/resource_enemy_shield.tres" id="5_h4fw4"]
-[ext_resource type="Script" uid="uid://d3tmu54670e6c" path="res://Scripts/time_limit.gd" id="6_1l0tm"]
 [ext_resource type="Texture2D" uid="uid://cc761bxrokhvk" path="res://Assets/kenney_prototypeTextures/Vector/texture_09.svg" id="6_i6g32"]
 [ext_resource type="Resource" uid="uid://rhmwdl0nsbfj" path="res://Scenes/enemies/Runner/resource_enemy_runner.tres" id="6_ldgsr"]
 [ext_resource type="Resource" uid="uid://c5c71ucm7lbe1" path="res://Scenes/enemies/Shooter/resource_enemy_shooter.tres" id="7_ldgsr"]
+[ext_resource type="Script" uid="uid://dwny5gkm3ccmk" path="res://Scripts/ui.gd" id="8_ldgsr"]
 
 [sub_resource type="Curve" id="Curve_i6g32"]
 _limits = [0.0, 30.0, 0.0, 20.0]
@@ -60,32 +60,70 @@ enemies_over_time = SubResource("Curve_i6g32")
 projectiles = NodePath("../Projectiles")
 enemies = Array[ExtResource("4_1l0tm")]([ExtResource("5_h4fw4"), ExtResource("6_ldgsr"), ExtResource("7_ldgsr")])
 spawn_points_node = NodePath("../Spawn Points")
-timer = NodePath("../UI/Control/Timer/Time Limit")
+timer = NodePath("../UI/GameUI/VBoxContainer/Timer/Time Limit")
 
 [node name="SpawnTimer" type="Timer" parent="Level/Enemy Manager"]
 wait_time = 0.45
-script = ExtResource("6_1l0tm")
-repeat = true
+autostart = true
 
-[node name="UI" type="CanvasLayer" parent="Level"]
+[node name="UI" type="CanvasLayer" parent="Level" node_paths=PackedStringArray("timer", "game_ui", "score_label", "high_scores")]
+script = ExtResource("8_ldgsr")
+timer = NodePath("GameUI/VBoxContainer/Timer/Time Limit")
+game_ui = NodePath("GameUI")
+score_label = NodePath("GameUI/VBoxContainer/Score")
+high_scores = NodePath("Highscores")
 
-[node name="Control" type="PanelContainer" parent="Level/UI"]
-offset_right = 145.0
-offset_bottom = 42.0
+[node name="GameUI" type="PanelContainer" parent="Level/UI"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -48.0
+offset_right = 48.0
+offset_bottom = 69.0
+grow_horizontal = 2
 
-[node name="Timer" type="Label" parent="Level/UI/Control" node_paths=PackedStringArray("target_node")]
+[node name="VBoxContainer" type="VBoxContainer" parent="Level/UI/GameUI"]
+layout_mode = 2
+
+[node name="Timer" type="Label" parent="Level/UI/GameUI/VBoxContainer" node_paths=PackedStringArray("target_node")]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Time left"
 uppercase = true
 script = ExtResource("4_3dryh")
 referenced_variable = "time_left"
 target_node = NodePath("Time Limit")
 use_snapping = true
 
-[node name="Time Limit" type="Timer" parent="Level/UI/Control/Timer"]
+[node name="Time Limit" type="Timer" parent="Level/UI/GameUI/VBoxContainer/Timer"]
 wait_time = 20.0
-script = ExtResource("6_1l0tm")
+one_shot = true
+
+[node name="Score" type="Label" parent="Level/UI/GameUI/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+script = ExtResource("4_3dryh")
+referenced_variable = "score"
+
+[node name="Highscores" type="VBoxContainer" parent="Level/UI"]
+offset_left = 432.0
+offset_top = 384.0
+offset_right = 848.0
+offset_bottom = 407.0
+
+[node name="Score1" type="Label" parent="Level/UI/Highscores"]
+layout_mode = 2
+
+[node name="Score2" type="Label" parent="Level/UI/Highscores"]
+layout_mode = 2
+
+[node name="Score3" type="Label" parent="Level/UI/Highscores"]
+layout_mode = 2
+
+[node name="Score4" type="Label" parent="Level/UI/Highscores"]
+layout_mode = 2
+
+[node name="Score5" type="Label" parent="Level/UI/Highscores"]
+layout_mode = 2
 
 [node name="Background" type="CanvasLayer" parent="Level"]
 layer = -1
@@ -135,3 +173,4 @@ debug_color = Color(0.9195, 1, 0.79, 1)
 
 [connection signal="tree_entered" from="Level/Enemy Manager" to="Level/Enemy Manager" method="_on_tree_entered"]
 [connection signal="timeout" from="Level/Enemy Manager/SpawnTimer" to="Level/Enemy Manager" method="_on_timer_timeout"]
+[connection signal="timeout" from="Level/UI/GameUI/VBoxContainer/Timer/Time Limit" to="Level/UI" method="_on_time_limit_timeout"]

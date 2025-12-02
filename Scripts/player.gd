@@ -11,6 +11,7 @@ var dash_cooldown_timer: Timer
 
 signal wpn_rotate(dir:bool)
 signal player_dead
+signal player_active
 
 func die():
 	print("Player has died.")
@@ -69,14 +70,15 @@ func get_ui_direction() -> Vector2:
 					if ui_direction.x + Vector2.RIGHT.x == Vector2.ZERO.x:
 						continue
 					ui_direction += Vector2.RIGHT
-
+	if ui_direction != Vector2.ZERO and Logic.game_state == Logic.GameState.READY:
+		awake.emit()
 	return ui_direction.normalized()
 
+signal awake
 
 func _on_tree_entered() -> void:
-	var game:Node = get_tree().get_root().get_node("Game")
-	game.player = self
-
+	Logic.player = self
+	connect("awake", Callable(Logic, "_on_player_wake"))
 
 func wpn_actions():
 	if Input.is_action_pressed("action_1"):
@@ -103,3 +105,11 @@ func _start_dash_cooldown(time:float) -> Timer:
 	timer.connect("timeout", Callable(timer, "queue_free"))
 	add_child(timer)
 	return timer
+
+func _init() -> void:
+	Logic.connect("game_state_changed", Callable(self, "_on_game_state_changed"))
+
+func _on_game_state_changed(new_state: Logic.GameState) -> void:
+	match new_state:
+		Logic.GameState.GAMEOVER:
+			die()
