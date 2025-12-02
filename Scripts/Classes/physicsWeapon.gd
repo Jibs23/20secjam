@@ -5,6 +5,8 @@ class_name PhysicsWeapon
 var player:Character2D
 var last_angular_velocity: float
 
+@export var trail: Trail
+
 @export_category("Weapon Damage")
 var swing_power: float = 0
 @export_range(1, 10, 1) var weapon_dmg: int = 1
@@ -16,10 +18,18 @@ var swing_power: float = 0
 var bounce_timer: Timer
 @export var intertia_bounce: float = 300
 @onready var inertia_default = inertia
+var gradient_start: Color
+var gradient_end: Color
+
+func _ready() -> void:
+	gradient_start = trail.gradient.get_color(1)
+	gradient_end = trail.gradient.get_color(0)
 
 func _physics_process(_delta: float) -> void:
 	last_angular_velocity = get_angular_velocity()
 	swing_power = abs(rad_to_deg(last_angular_velocity)) + abs(player.linear_velocity.length()*0.5)
+	trail.gradient.set_color(0, Color.from_hsv(gradient_end.h, gradient_end.s, gradient_end.v, clamp(swing_power / max_dmg_speed, 0, .40)))
+
 
 func _on_player_move(dir:Vector2) -> void:
 	if dir == Vector2.ZERO:

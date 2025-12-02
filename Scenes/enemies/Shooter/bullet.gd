@@ -10,6 +10,9 @@ var direction: Vector2 = Vector2.DOWN
 @export var deflected_speed_multiplier: float = 1.5
 @export var deflected_color: Color
 @onready var body_color: Color = $bullet_body.color
+@export var impact: CPUParticles2D
+@export var collision_shape: CollisionShape2D
+@export var bullet_body: Polygon2D
 
 func _physics_process(_delta) -> void:
 	_move()
@@ -27,18 +30,31 @@ func _on_body_entered(body: Node) -> void:
 			return
 
 func _die() -> void:
-	queue_free()
+	impact.color = body_color
+	impact.emitting = true
+	bullet_body.visible = false
+	collision_whitelist.clear()
+	particles.emitting = false
+
+	await impact.finished
+	call_deferred("queue_free")
 
 func _on_timer_timeout() -> void:
 	_die()
+
+@export var particles: CPUParticles2D
 
 func _deflect() -> void:
 	collision_whitelist.append("enemy")
 	direction = -direction
 	rotation += PI
 	deflected = true
+	impact.color = Color.WHITE
+	particles.color = deflected_color
+	bullet_body.color = deflected_color
+	impact.emitting = true
 	speed *= deflected_speed_multiplier
-	$bullet_body.color = deflected_color
+	damage *= 2
 
 func _move() -> void:
 	global_position += direction * speed

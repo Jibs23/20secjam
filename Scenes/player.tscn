@@ -1,14 +1,20 @@
-[gd_scene load_steps=14 format=3 uid="uid://dg382sc10qhfs"]
+[gd_scene load_steps=17 format=3 uid="uid://dg382sc10qhfs"]
 
 [ext_resource type="Script" uid="uid://dsc3muhjtycr" path="res://Scripts/player.gd" id="1_f1ek2"]
 [ext_resource type="Texture2D" uid="uid://da2vwloqbe6g" path="res://icon.svg" id="2_tx1dd"]
 [ext_resource type="Script" uid="uid://d3farf02gkq8e" path="res://Scripts/health.gd" id="3_gymyn"]
+[ext_resource type="Script" uid="uid://bekqwb46nqc28" path="res://Scenes/effects/trail/weapon_trail.gd" id="3_pu2lt"]
+[ext_resource type="PackedScene" uid="uid://cclp2idnd7odb" path="res://Scenes/effects/trail/trail.tscn" id="3_tx1dd"]
 [ext_resource type="Script" uid="uid://cyjyqi8i32o3x" path="res://Scripts/states/player_idle.gd" id="5_3smsa"]
 [ext_resource type="Script" uid="uid://b3u4aiy6bgk1c" path="res://Scripts/Classes/finite_state_machine.gd" id="5_ukyrk"]
 [ext_resource type="Script" uid="uid://ddfpfoed6crvm" path="res://Scripts/states/move_player.gd" id="6_3smsa"]
 [ext_resource type="Script" uid="uid://sgyeob3hmfxb" path="res://Scripts/personal_space.gd" id="8_8erm5"]
 [ext_resource type="Script" uid="uid://bnc6cyfk50dj" path="res://Scripts/Classes/physicsWeapon.gd" id="8_fd4e3"]
 [ext_resource type="Script" uid="uid://csrxxds2tne84" path="res://Scripts/debug_label.gd" id="9_f1ek2"]
+
+[sub_resource type="Gradient" id="Gradient_tx1dd"]
+offsets = PackedFloat32Array(0.23076923, 0.8175824)
+colors = PackedColorArray(0.83115, 0.81899995, 0.9, 0, 1, 1, 1, 1)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_f1ek2"]
 friction = 0.0
@@ -44,19 +50,26 @@ state_machine = NodePath("StateMachine")
 death_effect_color = Color(0.2784314, 0.54901963, 0.7490196, 1)
 metadata/_custom_type_script = "uid://b3rwp6d7gjlcf"
 
-[node name="Weapon" type="RigidBody2D" parent="." groups=["projectile_deflect", "weapon"]]
+[node name="Trail" parent="." node_paths=PackedStringArray("relative_parent") instance=ExtResource("3_tx1dd")]
+position = Vector2(-144, 40)
+gradient = SubResource("Gradient_tx1dd")
+script = ExtResource("3_pu2lt")
+relative_parent = NodePath("../Weapon")
+
+[node name="Weapon" type="RigidBody2D" parent="." node_paths=PackedStringArray("trail") groups=["projectile_deflect", "weapon"]]
 position = Vector2(0, 82)
 collision_layer = 256
 collision_mask = 524
 mass = 2.0
 physics_material_override = SubResource("PhysicsMaterial_f1ek2")
 center_of_mass_mode = 1
-center_of_mass = Vector2(0, -70)
+center_of_mass = Vector2(0, -75)
 inertia = 1.0
 continuous_cd = 2
 contact_monitor = true
 max_contacts_reported = 10
 script = ExtResource("8_fd4e3")
+trail = NodePath("../Trail")
 min_dmg_speed = 400.0
 max_dmg_speed = 680.0
 dmg_threshold = SubResource("Curve_ldgsr")
@@ -74,11 +87,13 @@ color = Color(0.76, 0.76, 0.76, 1)
 polygon = PackedVector2Array(-8, -16, -8, -82, 0, -90, 8, -82, 8, -16)
 
 [node name="head" type="Polygon2D" parent="Weapon"]
+position = Vector2(0, 6)
 color = Color(0.69337386, 0.4972471, 0.5587386, 1)
 polygon = PackedVector2Array(-32, -18, 0, -26, 32, -18, 32, 0, 32, 14, 0, 22, -32, 14)
 
 [node name="CollisionShape2D2" type="CollisionPolygon2D" parent="Weapon"]
 visible = false
+position = Vector2(0, 6)
 rotation = 1.5707964
 polygon = PackedVector2Array(-34, 1.4861873e-06, -18, 32, -2, 32, 14, 32, 22, -9.616504e-07, 14, -32, -18, -32)
 

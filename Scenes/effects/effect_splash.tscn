@@ -7,6 +7,8 @@ offsets = PackedFloat32Array(0.8141264, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [node name="EffectSplash" type="CPUParticles2D" node_paths=PackedStringArray("explosion")]
+z_index = -1
+z_as_relative = false
 emitting = false
 amount = 32
 one_shot = true
