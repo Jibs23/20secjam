@@ -52,11 +52,14 @@ var score: int = 0
 var high_score: Array[int] = []
 var high_score_list_size: int = 5
 
-#const score_popup_scene: PackedScene = preload("res://Scripts/Ui/ScorePopup.tscn")
-func add_score(points: int,display:Vector2=Vector2.ZERO) -> void:
+const SCORE_POP: PackedScene = preload("res://Scenes/effects/score_pop.tscn")
+func add_score(points: int,popup:Vector2=Vector2.ZERO) -> void:
 	score += points
-	if display != Vector2.ZERO:
-		pass
+	if popup != Vector2.ZERO:
+		var popup_instance: Label = SCORE_POP.instantiate()
+		ui.add_child(popup_instance)
+		popup_instance.global_position = popup
+		popup_instance.text = str(points)
 
 func reset_score() -> void:
 	score = 0

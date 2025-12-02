@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://0duu7jnoyc35"]
+
+[ext_resource type="Script" uid="uid://niibqxypx51w" path="res://Scripts/score_pop.gd" id="1_357de"]
+
+[sub_resource type="Curve" id="Curve_357de"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_4l5sr"]
+_data = [Vector2(0, 0), 0.0, 3.0, 0, 0, Vector2(0.4495114, 1), 0.0, 0.0, 0, 0, Vector2(0.6579805, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.0, 0.0, 0, 0]
+point_count = 4
+
+[node name="ScorePop" type="Label" node_paths=PackedStringArray("timer")]
+z_index = 2
+z_as_relative = false
+offset_left = -24.0
+offset_top = -16.0
+offset_right = 24.0
+offset_bottom = 16.0
+text = "##"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("1_357de")
+speed_curve = SubResource("Curve_357de")
+size_curve = SubResource("Curve_4l5sr")
+timer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+autostart = true

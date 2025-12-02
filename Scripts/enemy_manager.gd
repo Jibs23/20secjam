@@ -103,7 +103,7 @@ func _on_enemy_dead(enemy: Enemy2D) -> void:
 	for resource_enemy in enemies:
 		if enemy.is_in_group(resource_enemy.enemy_group):
 			resource_enemy.enemy_count -= 1
-			Logic.add_score(resource_enemy.score_value)
+			Logic.add_score(resource_enemy.score_value, enemy.global_position)
 			break
 
 func _spawn_indicator_at_position(pos: Vector2) -> Node2D:
