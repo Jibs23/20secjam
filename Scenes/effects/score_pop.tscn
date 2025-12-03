@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://0duu7jnoyc35"]
+[gd_scene load_steps=5 format=3 uid="uid://0duu7jnoyc35"]
 
+[ext_resource type="Theme" uid="uid://dk8xdyg8y6e3n" path="res://Themes/theme_score_pop.tres" id="1_4l5sr"]
 [ext_resource type="Script" uid="uid://niibqxypx51w" path="res://Scripts/score_pop.gd" id="1_357de"]
 
 [sub_resource type="Curve" id="Curve_357de"]
@@ -17,6 +18,7 @@ offset_left = -24.0
 offset_top = -16.0
 offset_right = 24.0
 offset_bottom = 16.0
+theme = ExtResource("1_4l5sr")
 text = "##"
 horizontal_alignment = 1
 vertical_alignment = 1

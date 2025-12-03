@@ -124,5 +124,6 @@ func enemy_death_effect(enemy:Enemy2D, hit_angle:float) -> void:
 	death_effect.global_position = enemy.global_position
 	death_effect.actor_color = color
 	death_effect.set_rotation(hit_angle) #radians
+	death_effect.scale = Vector2(enemy.death_effect_scale, enemy.death_effect_scale)
 	print("Death effect rotation (radians): ", hit_angle, " | degrees: ", rad_to_deg(hit_angle))
 	add_child(death_effect)

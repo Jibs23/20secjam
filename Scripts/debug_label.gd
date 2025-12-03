@@ -12,6 +12,7 @@ extends Label
 @export var decimals: int = 2
 @export var vector_length_conversion: bool = false
 @export var absolute_value: bool = true
+@export var period_separator: bool = false
 
 var label_text: String = text
 
@@ -29,6 +30,8 @@ func _process(_delta: float) -> void:
 				variable = abs(variable)
 			if use_snapping and typeof(variable) == TYPE_FLOAT:
 				variable = snapped(variable, pow(10, -decimals))
+			if period_separator and typeof(variable) == TYPE_INT:
+				pass #! NOT IMPLEMENTED
 			text = str(label_text," ", str(variable))
 		else:
 			text = "Variable not found"

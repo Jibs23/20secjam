@@ -1,0 +1,10 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://di01gu1mlqmfa"]
+
+[ext_resource type="FontFile" uid="uid://bagmk88ddq715" path="res://Fonts/04b_30/04B_30__.TTF" id="1_lbdhc"]
+[ext_resource type="FontFile" uid="uid://cqwbm1esqolsd" path="res://Fonts/pixellari/Pixellari.ttf" id="1_ppjtq"]
+
+[resource]
+default_font = ExtResource("1_ppjtq")
+Label/font_sizes/font_size = 32
+Label/fonts/Header = ExtResource("1_lbdhc")
+Label/fonts/font = ExtResource("1_ppjtq")

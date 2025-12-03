@@ -95,6 +95,7 @@ shape = SubResource("CircleShape2D_w2043")
 debug_color = Color(0.92681, 0.9257303, 1, 0.08235294)
 
 [node name="Label" type="Label" parent="." node_paths=PackedStringArray("target_node")]
+visible = false
 offset_left = -23.0
 offset_top = -34.0
 offset_right = 29.0

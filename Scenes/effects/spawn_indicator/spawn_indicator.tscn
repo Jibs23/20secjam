@@ -12,17 +12,20 @@ autostart = true
 
 [node name="Polygon2D2" type="Polygon2D" parent="."]
 color = Color(1, 0, 0, 0.7372549)
+antialiased = true
 polygon = PackedVector2Array(-16, -32, 16, -32, 32, -16, 32, 16, 16, 32, -15.89946, 32.000008, -32, 16, -32, -16)
 uv = PackedVector2Array(-16, -32, 16, -32, 32, -16, 32, 16, 16, 32, -15.89946, 32.000008, -32, 16, -32, -16)
 
 [node name="Polygon2D" type="Polygon2D" parent="Polygon2D2"]
 position = Vector2(4, 0)
 color = Color(1, 1, 1, 0.8039216)
+antialiased = true
 polygon = PackedVector2Array(-10, 16, -10, 22, -7, 25, -1, 25, 2, 22, 2, 16, -1, 13, -7, 13)
 
 [node name="Polygon2D2" type="Polygon2D" parent="Polygon2D2"]
 position = Vector2(4, -32)
 color = Color(1, 1, 1, 0.8039216)
+antialiased = true
 polygon = PackedVector2Array(-12, 10, -8, 39, -4, 41, 0, 39, 4, 10, -4, 5)
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

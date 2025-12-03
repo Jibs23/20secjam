@@ -8,7 +8,7 @@ var dash_cooldown_timer: Timer
 @export var debug_invincible: bool = false
 @export var dash_power: float = 2000
 @export var dash_cooldown_duration: float = 2
-
+@export var sprite: Sprite2D
 signal wpn_rotate(dir:bool)
 signal player_dead
 signal player_active

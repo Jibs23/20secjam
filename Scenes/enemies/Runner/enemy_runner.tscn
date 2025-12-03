@@ -27,12 +27,14 @@ metadata/_custom_type_script = "uid://lp0wln500jpy"
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
 visible = false
 scale = Vector2(1.0625, 1.0625)
-polygon = PackedVector2Array(0, -10, -10, 0, 0, 10, 10, 0)
+polygon = PackedVector2Array(0, -15.058824, -15.058824, 0, 0, 15.058824, 15.058824, 0)
 
 [node name="CollisionShape2D2" type="Polygon2D" parent="."]
-scale = Vector2(1.0625, 1.0625)
 color = Color(0.79, 0.28440002, 0.3855202, 1)
-polygon = PackedVector2Array(0, -10, -10, 0, 0, 10, 10, 0)
+antialiased = true
+polygon = PackedVector2Array(0, -16, -5, -11, -13, -12, -12, -4, -16, 0, -12, 5, -13, 12, -5, 11, 0, 16, 5, 11, 13, 12, 12, 5, 16, 0, 12, -4, 13, -12, 5, -11)
+
+[node name="CollisionShape2D" type="Polygon2D" parent="CollisionShape2D2"]
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_tm0ch")
@@ -76,6 +78,7 @@ shape = SubResource("CircleShape2D_w2043")
 debug_color = Color(0.92681, 0.9257303, 1, 0.08235294)
 
 [node name="Label" type="Label" parent="." node_paths=PackedStringArray("target_node")]
+visible = false
 offset_left = -23.0
 offset_top = -34.0
 offset_right = 29.0

@@ -55,6 +55,7 @@ func _deflect() -> void:
 	impact.emitting = true
 	speed *= deflected_speed_multiplier
 	damage *= 2
+	Logic.add_score(1250, global_position)
 
 func _move() -> void:
 	global_position += direction * speed

@@ -2,8 +2,10 @@
 ## Used for 2D characters.
 class_name Character2D extends RigidBody2D
 var death_effect_scene: PackedScene = preload("res://Scenes/effects/effect_splash.tscn")
+@export var death_effect_scale: float = 1.0
 @export var health_component: HealthComponent 
 @export var state_machine: StateMachine
+var death_sound
 var screen_check: VisibleOnScreenNotifier2D
 ## The last emitted direction, to account for Vector2.ZERO deadzone.
 var last_dir: Vector2 = Vector2.ZERO

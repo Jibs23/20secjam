@@ -7,7 +7,7 @@
 script = ExtResource("2_kh0y0")
 enemy_name = "Enemy_shooter"
 acceleration = 200.0
-score_value = 25
+score_value = 25000
 spawn_weight = 30.0
 scene = ExtResource("1_ny1nt")
 max_count = 5.0

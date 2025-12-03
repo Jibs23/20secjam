@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dk8xdyg8y6e3n"]
+
+[ext_resource type="FontFile" uid="uid://bagmk88ddq715" path="res://Fonts/04b_30/04B_30__.TTF" id="1_hp8jv"]
+
+[resource]
+Label/fonts/font = ExtResource("1_hp8jv")

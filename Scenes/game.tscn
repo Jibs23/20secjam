@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://d35vcl273s34i"]
+[gd_scene load_steps=19 format=3 uid="uid://d35vcl273s34i"]
 
 [ext_resource type="Script" uid="uid://d10y1mhqwveps" path="res://Scripts/game.gd" id="1_3dryh"]
 [ext_resource type="PackedScene" uid="uid://dg382sc10qhfs" path="res://Scenes/player.tscn" id="1_qxrlw"]
@@ -10,11 +10,16 @@
 [ext_resource type="Resource" uid="uid://rhmwdl0nsbfj" path="res://Scenes/enemies/Runner/resource_enemy_runner.tres" id="6_ldgsr"]
 [ext_resource type="Resource" uid="uid://c5c71ucm7lbe1" path="res://Scenes/enemies/Shooter/resource_enemy_shooter.tres" id="7_ldgsr"]
 [ext_resource type="Script" uid="uid://dwny5gkm3ccmk" path="res://Scripts/ui.gd" id="8_ldgsr"]
+[ext_resource type="Theme" uid="uid://di01gu1mlqmfa" path="res://Themes/theme_ui.tres" id="10_o5yvi"]
+[ext_resource type="Script" uid="uid://crp0yf3tbjxlk" path="res://Scripts/new_best.gd" id="11_rfjv2"]
+[ext_resource type="FontFile" uid="uid://bagmk88ddq715" path="res://Fonts/04b_30/04B_30__.TTF" id="11_rku1e"]
 
 [sub_resource type="Curve" id="Curve_i6g32"]
 _limits = [0.0, 30.0, 0.0, 20.0]
 _data = [Vector2(0, 18.234638), 0.0, 0.5002589, 0, 0, Vector2(20, 0), -2.5108244, 0.0, 0, 0]
 point_count = 2
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rku1e"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ldgsr"]
 friction = 0.0
@@ -60,70 +65,188 @@ enemies_over_time = SubResource("Curve_i6g32")
 projectiles = NodePath("../Projectiles")
 enemies = Array[ExtResource("4_1l0tm")]([ExtResource("5_h4fw4"), ExtResource("6_ldgsr"), ExtResource("7_ldgsr")])
 spawn_points_node = NodePath("../Spawn Points")
-timer = NodePath("../UI/GameUI/VBoxContainer/Timer/Time Limit")
+timer = NodePath("../UI/GameUi/GameUI/Timer/Time Limit")
 
 [node name="SpawnTimer" type="Timer" parent="Level/Enemy Manager"]
 wait_time = 0.45
 autostart = true
 
-[node name="UI" type="CanvasLayer" parent="Level" node_paths=PackedStringArray("timer", "game_ui", "score_label", "high_scores")]
+[node name="UI" type="CanvasLayer" parent="Level" node_paths=PackedStringArray("timer", "score_label", "game_ui", "game_over_ui", "high_scores_ui")]
 script = ExtResource("8_ldgsr")
-timer = NodePath("GameUI/VBoxContainer/Timer/Time Limit")
-game_ui = NodePath("GameUI")
-score_label = NodePath("GameUI/VBoxContainer/Score")
-high_scores = NodePath("Highscores")
+timer = NodePath("GameUi/GameUI/Timer/Time Limit")
+score_label = NodePath("GameUi/GameUI/Score")
+game_ui = NodePath("GameUi")
+game_over_ui = NodePath("GameOver")
+high_scores_ui = NodePath("Highscores")
 
-[node name="GameUI" type="PanelContainer" parent="Level/UI"]
+[node name="GameOver" type="CanvasLayer" parent="Level/UI"]
+visible = false
+
+[node name="PanelContainer" type="PanelContainer" parent="Level/UI/GameOver"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Level/UI/GameOver/PanelContainer"]
+layout_mode = 2
+theme = ExtResource("10_o5yvi")
+theme_override_colors/font_color = Color(1.3232689, 0.19858247, 0.35170877, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 24
+theme_override_fonts/font = ExtResource("11_rku1e")
+theme_override_font_sizes/font_size = 64
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Level/UI/GameOver"]
+offset_left = 8.0
+offset_top = 448.0
+offset_right = 1288.0
+offset_bottom = 512.0
+theme = ExtResource("10_o5yvi")
+text = "YOUR SCORE"
+horizontal_alignment = 1
+
+[node name="NewBest" type="PanelContainer" parent="Level/UI/GameOver"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 64.0
+offset_top = 24.0
+offset_right = 224.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.12208207
+theme_override_styles/panel = SubResource("StyleBoxEmpty_rku1e")
+script = ExtResource("11_rfjv2")
+
+[node name="star" type="Polygon2D" parent="Level/UI/GameOver/NewBest"]
+position = Vector2(40, 4)
+color = Color(1, 1, 0, 1)
+antialiased = true
+polygon = PackedVector2Array(41.5, -28, 25.5, -4, 1.5, -4, 17.5, 20, 9.5, 52, 41.5, 36, 73.5, 52, 65.5, 20, 81.5, -4, 57.5, -4)
+
+[node name="Label" type="Label" parent="Level/UI/GameOver/NewBest"]
+layout_mode = 2
+theme = ExtResource("10_o5yvi")
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 16
+text = "NEW BEST!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameUi" type="CanvasLayer" parent="Level/UI"]
+visible = false
+
+[node name="GameUI" type="Panel" parent="Level/UI/GameUi"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -48.0
-offset_right = 48.0
-offset_bottom = 69.0
+offset_left = -96.0
+offset_right = 96.0
+offset_bottom = 96.0
 grow_horizontal = 2
+theme = ExtResource("10_o5yvi")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Level/UI/GameUI"]
-layout_mode = 2
-
-[node name="Timer" type="Label" parent="Level/UI/GameUI/VBoxContainer" node_paths=PackedStringArray("target_node")]
-layout_mode = 2
+[node name="Timer" type="Label" parent="Level/UI/GameUi/GameUI" node_paths=PackedStringArray("target_node")]
+layout_mode = 0
+offset_left = 16.0
+offset_right = 160.0
+offset_bottom = 40.0
+theme = ExtResource("10_o5yvi")
+theme_override_fonts/font = ExtResource("11_rku1e")
 theme_override_font_sizes/font_size = 30
+vertical_alignment = 2
 uppercase = true
 script = ExtResource("4_3dryh")
 referenced_variable = "time_left"
 target_node = NodePath("Time Limit")
 use_snapping = true
 
-[node name="Time Limit" type="Timer" parent="Level/UI/GameUI/VBoxContainer/Timer"]
+[node name="Time Limit" type="Timer" parent="Level/UI/GameUi/GameUI/Timer"]
 wait_time = 20.0
 one_shot = true
 
-[node name="Score" type="Label" parent="Level/UI/GameUI/VBoxContainer"]
-layout_mode = 2
+[node name="Score" type="Label" parent="Level/UI/GameUi/GameUI"]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 192.0
+offset_bottom = 96.0
+theme = ExtResource("10_o5yvi")
 horizontal_alignment = 1
+vertical_alignment = 1
 script = ExtResource("4_3dryh")
 referenced_variable = "score"
+period_separator = true
 
-[node name="Highscores" type="VBoxContainer" parent="Level/UI"]
-offset_left = 432.0
-offset_top = 384.0
-offset_right = 848.0
-offset_bottom = 407.0
+[node name="Highscores" type="CanvasLayer" parent="Level/UI"]
+visible = false
 
-[node name="Score1" type="Label" parent="Level/UI/Highscores"]
+[node name="Panel" type="Panel" parent="Level/UI/Highscores"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -348.0
+offset_right = 348.0
+offset_bottom = 280.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="Level/UI/Highscores/Panel"]
+layout_mode = 0
+offset_left = 156.0
+offset_right = 540.0
+offset_bottom = 63.0
+theme = ExtResource("10_o5yvi")
+theme_type_variation = &"HeaderLarge"
+theme_override_fonts/font = ExtResource("11_rku1e")
+text = "HIGH-SCORES"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Highscores" type="VBoxContainer" parent="Level/UI/Highscores/Panel"]
+layout_mode = 0
+offset_left = 156.0
+offset_top = 64.0
+offset_right = 540.0
+offset_bottom = 240.0
+alignment = 1
+
+[node name="Score1" type="Label" parent="Level/UI/Highscores/Panel/Highscores"]
 layout_mode = 2
+theme = ExtResource("10_o5yvi")
+text = "XXXX"
+horizontal_alignment = 1
 
-[node name="Score2" type="Label" parent="Level/UI/Highscores"]
+[node name="Score2" type="Label" parent="Level/UI/Highscores/Panel/Highscores"]
 layout_mode = 2
+theme = ExtResource("10_o5yvi")
+text = "XXXX"
+horizontal_alignment = 1
 
-[node name="Score3" type="Label" parent="Level/UI/Highscores"]
+[node name="Score3" type="Label" parent="Level/UI/Highscores/Panel/Highscores"]
 layout_mode = 2
+theme = ExtResource("10_o5yvi")
+text = "XXXX"
+horizontal_alignment = 1
 
-[node name="Score4" type="Label" parent="Level/UI/Highscores"]
+[node name="Score4" type="Label" parent="Level/UI/Highscores/Panel/Highscores"]
 layout_mode = 2
+theme = ExtResource("10_o5yvi")
+text = "XXXX"
+horizontal_alignment = 1
 
-[node name="Score5" type="Label" parent="Level/UI/Highscores"]
+[node name="Score5" type="Label" parent="Level/UI/Highscores/Panel/Highscores"]
 layout_mode = 2
+theme = ExtResource("10_o5yvi")
+text = "XXXX"
+horizontal_alignment = 1
 
 [node name="Background" type="CanvasLayer" parent="Level"]
 layer = -1
@@ -173,4 +296,6 @@ debug_color = Color(0.9195, 1, 0.79, 1)
 
 [connection signal="tree_entered" from="Level/Enemy Manager" to="Level/Enemy Manager" method="_on_tree_entered"]
 [connection signal="timeout" from="Level/Enemy Manager/SpawnTimer" to="Level/Enemy Manager" method="_on_timer_timeout"]
-[connection signal="timeout" from="Level/UI/GameUI/VBoxContainer/Timer/Time Limit" to="Level/UI" method="_on_time_limit_timeout"]
+[connection signal="new_top_high_score" from="Level/UI" to="Level/UI/GameOver/NewBest" method="_on_ui_new_top_high_score"]
+[connection signal="hidden" from="Level/UI/GameOver/NewBest" to="Level/UI/GameOver/NewBest" method="_on_hidden"]
+[connection signal="timeout" from="Level/UI/GameUi/GameUI/Timer/Time Limit" to="Level/UI" method="_on_time_limit_timeout"]

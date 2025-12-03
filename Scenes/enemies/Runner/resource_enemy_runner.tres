@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_el7pi")
 enemy_name = "Enemy_Runner"
+score_value = 10000
 spawn_weight = 70.0
 scene = ExtResource("1_alq3t")
 enemy_group = "enemy_runner"

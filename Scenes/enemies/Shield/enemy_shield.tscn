@@ -25,6 +25,7 @@ contact_monitor = true
 max_contacts_reported = 1
 linear_damp = 3.0
 script = ExtResource("1_wgm1h")
+death_effect_scale = 2.0
 health_component = NodePath("HealthComponent")
 state_machine = NodePath("StateMachine")
 death_effect_color = Color(0.80784315, 0.61960787, 0.3372549, 1)
@@ -33,6 +34,7 @@ metadata/_custom_type_script = "uid://lp0wln500jpy"
 [node name="body" type="Polygon2D" parent="."]
 scale = Vector2(3.7272727, 3.7272727)
 color = Color(0.81, 0.62208, 0.3402, 1)
+antialiased = true
 polygon = PackedVector2Array(0, -10.731707, -8.585365, -8.585365, -10.731707, 0, -8.585365, 8.585365, 0, 10.731707, 8.585365, 8.585365, 10.731707, 0, 8.585365, -8.585365)
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="." groups=["player"]]
@@ -48,6 +50,7 @@ script = ExtResource("2_tu8kc")
 
 [node name="shield" type="Polygon2D" parent="Shield"]
 color = Color(0.86, 0.79851, 0.57619995, 1)
+antialiased = true
 polygon = PackedVector2Array(-56, 0, -48, -48, 0, -64, 48, -48, 56, 0, 40, 0, 31, -24, 16, -34, 9, -35, 4, -13, -4, -13, -9, -35, -17, -34, -31, -24, -40, 0)
 
 [node name="CollisionShape2D2" type="CollisionPolygon2D" parent="Shield"]
@@ -59,16 +62,19 @@ polygon = PackedVector2Array(-21.538462, 10.769231, 21.538462, 10.769231, 18.461
 [node name="Polygon2D" type="Polygon2D" parent="Shield"]
 position = Vector2(-4, 4)
 color = Color(1, 0.74, 0.74, 0.40392157)
+antialiased = true
 polygon = PackedVector2Array(-16, 16, -2.724018, 22.423862, -12, 27, -6, 30, 6, 26, 17, 30, 23, 27, 12, 21, 26, 13, 18, 10, 6, 18, -7, 11)
 
 [node name="Polygon2D2" type="Polygon2D" parent="Shield"]
 color = Color(1, 1, 1, 0.88235295)
+antialiased = true
 polygon = PackedVector2Array(8, -59, 46, -46, 32, -37, 9, -41)
 
 [node name="Polygon2D3" type="Polygon2D" parent="Shield"]
 position = Vector2(-2, 3)
 rotation = -0.7853982
 color = Color(1, 1, 1, 0.88235295)
+antialiased = true
 polygon = PackedVector2Array(0.7071078, -62.932507, 6.306175, -64.39909, 45.254837, -45.25484, 41.012196, -41.0122, 29.698486, -28.284275, 13.43503, -13.435029, 30.405594, -43.13352, 25.223988, -46.777145, 7.071068, -56.568546, -21.213203, -41.012196, -29.698486, -39.59798)
 
 [node name="HealthComponent" type="Node" parent="."]
@@ -113,6 +119,7 @@ shape = SubResource("CircleShape2D_tu8kc")
 debug_color = Color(0.92681, 0.9257303, 1, 0.08235294)
 
 [node name="Label" type="Label" parent="." node_paths=PackedStringArray("target_node")]
+visible = false
 offset_left = -28.0
 offset_top = -79.0
 offset_right = 24.0

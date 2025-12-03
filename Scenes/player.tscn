@@ -1,11 +1,11 @@
 [gd_scene load_steps=17 format=3 uid="uid://dg382sc10qhfs"]
 
 [ext_resource type="Script" uid="uid://dsc3muhjtycr" path="res://Scripts/player.gd" id="1_f1ek2"]
-[ext_resource type="Texture2D" uid="uid://da2vwloqbe6g" path="res://icon.svg" id="2_tx1dd"]
 [ext_resource type="Script" uid="uid://d3farf02gkq8e" path="res://Scripts/health.gd" id="3_gymyn"]
 [ext_resource type="Script" uid="uid://bekqwb46nqc28" path="res://Scenes/effects/trail/weapon_trail.gd" id="3_pu2lt"]
 [ext_resource type="PackedScene" uid="uid://cclp2idnd7odb" path="res://Scenes/effects/trail/trail.tscn" id="3_tx1dd"]
 [ext_resource type="Script" uid="uid://cyjyqi8i32o3x" path="res://Scripts/states/player_idle.gd" id="5_3smsa"]
+[ext_resource type="Texture2D" uid="uid://dormgc2umajb2" path="res://icon_color.svg" id="5_gymyn"]
 [ext_resource type="Script" uid="uid://b3u4aiy6bgk1c" path="res://Scripts/Classes/finite_state_machine.gd" id="5_ukyrk"]
 [ext_resource type="Script" uid="uid://ddfpfoed6crvm" path="res://Scripts/states/move_player.gd" id="6_3smsa"]
 [ext_resource type="Script" uid="uid://sgyeob3hmfxb" path="res://Scripts/personal_space.gd" id="8_8erm5"]
@@ -13,8 +13,7 @@
 [ext_resource type="Script" uid="uid://csrxxds2tne84" path="res://Scripts/debug_label.gd" id="9_f1ek2"]
 
 [sub_resource type="Gradient" id="Gradient_tx1dd"]
-offsets = PackedFloat32Array(0.23076923, 0.8175824)
-colors = PackedColorArray(0.83115, 0.81899995, 0.9, 0, 1, 1, 1, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_f1ek2"]
 friction = 0.0
@@ -34,7 +33,7 @@ radius = 30.016663
 [sub_resource type="CircleShape2D" id="CircleShape2D_f1ek2"]
 radius = 58.0
 
-[node name="Player" type="RigidBody2D" node_paths=PackedStringArray("health_component", "state_machine") groups=["player"]]
+[node name="Player" type="RigidBody2D" node_paths=PackedStringArray("sprite", "health_component", "state_machine") groups=["player"]]
 collision_layer = 6
 collision_mask = 524
 mass = 2.0
@@ -45,6 +44,7 @@ max_contacts_reported = 1
 linear_damp = 2.0
 script = ExtResource("1_f1ek2")
 debug_invincible = true
+sprite = NodePath("Sprite2D")
 health_component = NodePath("HealthComponent")
 state_machine = NodePath("StateMachine")
 death_effect_color = Color(0.2784314, 0.54901963, 0.7490196, 1)
@@ -53,6 +53,7 @@ metadata/_custom_type_script = "uid://b3rwp6d7gjlcf"
 [node name="Trail" parent="." node_paths=PackedStringArray("relative_parent") instance=ExtResource("3_tx1dd")]
 position = Vector2(-144, 40)
 gradient = SubResource("Gradient_tx1dd")
+begin_cap_mode = 0
 script = ExtResource("3_pu2lt")
 relative_parent = NodePath("../Weapon")
 
@@ -83,13 +84,8 @@ node_b = NodePath("..")
 softness = 2.0
 
 [node name="shaft" type="Polygon2D" parent="Weapon"]
-color = Color(0.76, 0.76, 0.76, 1)
-polygon = PackedVector2Array(-8, -16, -8, -82, 0, -90, 8, -82, 8, -16)
-
-[node name="head" type="Polygon2D" parent="Weapon"]
-position = Vector2(0, 6)
-color = Color(0.69337386, 0.4972471, 0.5587386, 1)
-polygon = PackedVector2Array(-32, -18, 0, -26, 32, -18, 32, 0, 32, 14, 0, 22, -32, 14)
+color = Color(0.77861, 0.5097214, 0.32984212, 1)
+polygon = PackedVector2Array(-8, 19, -8, -82, 0, -90, 8, -82, 8, 19, 3, 22, -3, 22)
 
 [node name="CollisionShape2D2" type="CollisionPolygon2D" parent="Weapon"]
 visible = false
@@ -97,9 +93,29 @@ position = Vector2(0, 6)
 rotation = 1.5707964
 polygon = PackedVector2Array(-34, 1.4861873e-06, -18, 32, -2, 32, 14, 32, 22, -9.616504e-07, 14, -32, -18, -32)
 
+[node name="Polygon2D" type="Polygon2D" parent="Weapon"]
+color = Color(0.35462016, 0.44963068, 0.6788865, 1)
+polygon = PackedVector2Array(-32, -12, -23, -12, -17, -7, -13, -7, -8, -9, 8, -9, 14, -7, 18, -7, 23, -12, 32, -12, 32, 20, 23, 20, 18, 16, 13, 16, 8, 17, -8, 17, -13, 16, -17, 16, -23, 20, -32, 20)
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_tx1dd")
+position = Vector2(0, -5)
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("5_gymyn")
+
+[node name="Polygon2D" type="Polygon2D" parent="Sprite2D"]
+scale = Vector2(9.999999, 9.999999)
+color = Color(0.2784314, 0.54901963, 0.7490196, 1)
+polygon = PackedVector2Array(-10, 6, -35, -11, 35, -11, 10, 6, 0, -6)
+
+[node name="Polygon2D2" type="Polygon2D" parent="Sprite2D"]
+scale = Vector2(9.999999, 9.999999)
+color = Color(1, 1, 1, 0.45490196)
+polygon = PackedVector2Array(-25, -15, -29, -12, -13, 0)
+
+[node name="Polygon2D3" type="Polygon2D" parent="Sprite2D"]
+scale = Vector2(9.999999, 9.999999)
+color = Color(1, 1, 1, 0.45490196)
+polygon = PackedVector2Array(25, -15, 29, -12, 13, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -126,8 +142,8 @@ metadata/_custom_type_script = "uid://dkheav4fupoy2"
 
 [node name="Move" type="Node" parent="StateMachine" node_paths=PackedStringArray("weapon", "state_idle")]
 script = ExtResource("6_3smsa")
-max_move_speed = 400.0
-acceleration = 2000.0
+max_move_speed = 450.0
+acceleration = 2500.0
 weapon = NodePath("../../Weapon")
 state_idle = NodePath("../Idle")
 metadata/_custom_type_script = "uid://swwpijbfoat8"
@@ -142,6 +158,7 @@ shape = SubResource("CircleShape2D_f1ek2")
 debug_color = Color(0.92681, 0.9257303, 1, 0.08235294)
 
 [node name="Swing power" type="Label" parent="." node_paths=PackedStringArray("target_node")]
+visible = false
 offset_left = -61.0
 offset_top = -56.0
 offset_right = 62.0
@@ -153,6 +170,7 @@ target_node = NodePath("../Weapon")
 use_snapping = true
 
 [node name="HP" type="Label" parent="." node_paths=PackedStringArray("target_node")]
+visible = false
 offset_left = -27.0
 offset_top = -76.0
 offset_right = 25.0
@@ -163,6 +181,7 @@ referenced_variable = "current_health"
 target_node = NodePath("../HealthComponent")
 
 [node name="speed" type="Label" parent="." node_paths=PackedStringArray("target_node")]
+visible = false
 offset_left = -32.0
 offset_top = 32.0
 offset_right = 20.0

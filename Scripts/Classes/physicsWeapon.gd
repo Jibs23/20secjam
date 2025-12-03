@@ -18,18 +18,14 @@ var swing_power: float = 0
 var bounce_timer: Timer
 @export var intertia_bounce: float = 300
 @onready var inertia_default = inertia
-var gradient_start: Color
-var gradient_end: Color
 
-func _ready() -> void:
-	gradient_start = trail.gradient.get_color(1)
-	gradient_end = trail.gradient.get_color(0)
 
 func _physics_process(_delta: float) -> void:
 	last_angular_velocity = get_angular_velocity()
 	swing_power = abs(rad_to_deg(last_angular_velocity)) + abs(player.linear_velocity.length()*0.5)
-	trail.gradient.set_color(0, Color.from_hsv(gradient_end.h, gradient_end.s, gradient_end.v, clamp(swing_power / max_dmg_speed, 0, .40)))
-
+	var color:Color = trail.gradient.get_color(1)
+	color.a = clamp((swing_power - min_dmg_speed)/(max_dmg_speed - min_dmg_speed), 0.1, .90)
+	trail.gradient.set_color(1, color)
 
 func _on_player_move(dir:Vector2) -> void:
 	if dir == Vector2.ZERO:
