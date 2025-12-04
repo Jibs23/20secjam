@@ -1,6 +1,17 @@
+@tool
 extends Resource
 
-var highscore_list: Array[int] = [0,0,0,0,0]
+@export var highscore_list: Array[int] = [0,0,0,0,0]
+
+
+@export_category("Highscore Management")
+@export_tool_button("erase","Erase") var erase_button: Callable = erase
+@export_tool_button("save","Save") var save_button: Callable = save
+@export_tool_button("load","Load") var load_button: Callable = load
+
+func erase() -> void:
+	highscore_list = [0,0,0,0,0]
+	save()
 
 func save() -> void:
 	var file: FileAccess = FileAccess.open("user://highscores.save", FileAccess.WRITE)

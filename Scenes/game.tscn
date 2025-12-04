@@ -257,7 +257,7 @@ position = Vector2(276, 585)
 texture = ExtResource("6_i6g32")
 texture_offset = Vector2(20, 9)
 texture_scale = Vector2(4, 4)
-polygon = PackedVector2Array(-667, -833, 1350, -852, 1348, 654, -604, 484)
+polygon = PackedVector2Array(-660, -857, 1350, -852, 1348, 655, -660, 655)
 
 [node name="Camera2D" type="Camera2D" parent="Level"]
 anchor_mode = 0
