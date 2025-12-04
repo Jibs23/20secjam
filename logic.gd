@@ -15,6 +15,7 @@ enum GameState {
 
 func _ready() -> void:
 	game_state_changed.emit(game_state)
+	highscore_file.load()
 
 signal game_state_changed(new_state: GameState)
 var game_state: GameState = GameState.READY
@@ -52,7 +53,7 @@ func _on_player_wake() -> void:
 
 # SCORE TRACKING
 var score: int = 0
-var highscore_list: Array[int] = [0,0,0,0,0]
+var highscore_file: = preload("res://Assets/resource_scores.tres")
 
 const SCORE_POP: PackedScene = preload("res://Scenes/effects/score_pop.tscn")
 func add_score(points: int,popup:Vector2=Vector2.ZERO) -> void:
@@ -68,21 +69,20 @@ func reset_score() -> void:
 
 signal new_high_score(new_score: int,index: int,label: Label)
 func add_high_score(new_score: int) -> void:
-	if new_score < highscore_list[highscore_list.size() - 1] or new_score == 0:
-		print("Score %d did not beat the lowest score of %d" % [new_score, highscore_list[highscore_list.size() - 1]])
-		return
+	var list:Array[int] = highscore_file.highscore_list
 	var score_labels = ui.high_scores_ui.get_child(0).get_child(1).get_children() as Array[Label]
-	highscore_list.append(new_score)
-	highscore_list.sort()
-	highscore_list.reverse()
-	if highscore_list.size() > score_labels.size():
-		highscore_list.resize(score_labels.size())
+	list.append(new_score)
+	list.sort()
+	list.reverse()
+	if list.size() > score_labels.size():
+		list.resize(score_labels.size())
 	for slot:Label in score_labels:
 		var index = slot.get_index()
-		slot.text = str(highscore_list[index])
-		if highscore_list[index] == new_score:
+		slot.text = str(list[index])
+		if list[index] == new_score:
 			new_high_score.emit(new_score, index, slot)
-	
+	highscore_file.highscore_list = list
+	highscore_file.save()
 
 # INPUT
 func _unhandled_input(event: InputEvent) -> void:

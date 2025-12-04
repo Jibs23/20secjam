@@ -25,7 +25,6 @@ func _on_time_limit_timeout() -> void:
 func pause_timer() -> void:
 	timer.pause()
 
-
 func _on_game_state_changed(new_state: Logic.GameState) -> void:
 	match new_state:
 		Logic.GameState.PLAYING:
@@ -63,9 +62,9 @@ func toggle_ui(ui:UI, on:bool) -> void:
 
 signal new_top_high_score
 func _on_new_high_score(new_score: int, index: int, label: Label) -> void:
+	if new_score == 0: return
 	new_top_high_score.emit()
 	flash_label(label,5,0.2,Color.YELLOW)
-
 
 func flash_label(label:Label,count:int,speed:float,color:Color) -> void:
 	var original_color:Color = label.modulate

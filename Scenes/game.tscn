@@ -187,7 +187,6 @@ referenced_variable = "score"
 period_separator = true
 
 [node name="Highscores" type="CanvasLayer" parent="Level/UI"]
-visible = false
 
 [node name="Panel" type="Panel" parent="Level/UI/Highscores"]
 anchors_preset = 5
