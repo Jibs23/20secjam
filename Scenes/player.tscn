@@ -53,7 +53,9 @@ metadata/_custom_type_script = "uid://b3rwp6d7gjlcf"
 [node name="Trail" parent="." node_paths=PackedStringArray("relative_parent") instance=ExtResource("3_tx1dd")]
 position = Vector2(-144, 40)
 gradient = SubResource("Gradient_tx1dd")
+joint_mode = 1
 begin_cap_mode = 0
+end_cap_mode = 0
 script = ExtResource("3_pu2lt")
 relative_parent = NodePath("../Weapon")
 

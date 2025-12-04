@@ -7,6 +7,7 @@ signal time_limit_timeout
 @export var game_ui: CanvasLayer
 @export var game_over_ui: CanvasLayer
 @export var high_scores_ui: CanvasLayer
+@export var tutorial_ui: CanvasLayer
 
 func _init() -> void:
 	Logic.ui = self
@@ -32,6 +33,7 @@ func _on_game_state_changed(new_state: Logic.GameState) -> void:
 			toggle_ui(UI.HIGH_SCORES, false)
 			toggle_ui(UI.GAME, true)
 			toggle_ui(UI.GAME_OVER, false)
+			toggle_ui(UI.TUTORIAL, false)
 		Logic.GameState.GAMEOVER:
 			timer.stop()
 			toggle_ui(UI.HIGH_SCORES, true)
@@ -42,11 +44,13 @@ func _on_game_state_changed(new_state: Logic.GameState) -> void:
 			toggle_ui(UI.GAME_OVER, false)
 			toggle_ui(UI.GAME, false)
 			toggle_ui(UI.HIGH_SCORES, true)
+			toggle_ui(UI.TUTORIAL, true)
 
 enum UI{
 	GAME,
 	GAME_OVER,
-	HIGH_SCORES
+	HIGH_SCORES,
+	TUTORIAL
 }
 
 func toggle_ui(ui:UI, on:bool) -> void:
@@ -58,6 +62,8 @@ func toggle_ui(ui:UI, on:bool) -> void:
 			ui_instance = game_over_ui
 		UI.HIGH_SCORES:
 			ui_instance = high_scores_ui
+		UI.TUTORIAL:
+			ui_instance = tutorial_ui
 	ui_instance.visible = on
 
 signal new_top_high_score

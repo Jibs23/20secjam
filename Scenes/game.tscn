@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://d35vcl273s34i"]
+[gd_scene load_steps=24 format=3 uid="uid://d35vcl273s34i"]
 
 [ext_resource type="Script" uid="uid://d10y1mhqwveps" path="res://Scripts/game.gd" id="1_3dryh"]
 [ext_resource type="PackedScene" uid="uid://dg382sc10qhfs" path="res://Scenes/player.tscn" id="1_qxrlw"]
@@ -13,6 +13,11 @@
 [ext_resource type="Theme" uid="uid://di01gu1mlqmfa" path="res://Themes/theme_ui.tres" id="10_o5yvi"]
 [ext_resource type="Script" uid="uid://crp0yf3tbjxlk" path="res://Scripts/new_best.gd" id="11_rfjv2"]
 [ext_resource type="FontFile" uid="uid://bagmk88ddq715" path="res://Fonts/04b_30/04B_30__.TTF" id="11_rku1e"]
+[ext_resource type="Texture2D" uid="uid://jj6pravopms8" path="res://Assets/SimpleFlatKeys/Light/W-Key.png" id="13_85qyi"]
+[ext_resource type="Texture2D" uid="uid://dvm3gtpxes42j" path="res://Assets/SimpleFlatKeys/Light/A-Key.png" id="14_iivbl"]
+[ext_resource type="Texture2D" uid="uid://583bov06w1m1" path="res://Assets/SimpleFlatKeys/Light/S-Key.png" id="15_7nbq1"]
+[ext_resource type="Texture2D" uid="uid://bls1nigit7o8r" path="res://Assets/SimpleFlatKeys/Light/D-Key.png" id="16_exi56"]
+[ext_resource type="Texture2D" uid="uid://b3j7dilg5smj1" path="res://Assets/SimpleFlatKeys/Light/Space-Key.png" id="17_7t8sx"]
 
 [sub_resource type="Curve" id="Curve_i6g32"]
 _limits = [0.0, 30.0, 0.0, 20.0]
@@ -71,13 +76,14 @@ timer = NodePath("../UI/GameUi/GameUI/Timer/Time Limit")
 wait_time = 0.45
 autostart = true
 
-[node name="UI" type="CanvasLayer" parent="Level" node_paths=PackedStringArray("timer", "score_label", "game_ui", "game_over_ui", "high_scores_ui")]
+[node name="UI" type="CanvasLayer" parent="Level" node_paths=PackedStringArray("timer", "score_label", "game_ui", "game_over_ui", "high_scores_ui", "tutorial_ui")]
 script = ExtResource("8_ldgsr")
 timer = NodePath("GameUi/GameUI/Timer/Time Limit")
 score_label = NodePath("GameUi/GameUI/Score")
 game_ui = NodePath("GameUi")
 game_over_ui = NodePath("GameOver")
 high_scores_ui = NodePath("Highscores")
+tutorial_ui = NodePath("Tutorial")
 
 [node name="GameOver" type="CanvasLayer" parent="Level/UI"]
 visible = false
@@ -256,6 +262,103 @@ horizontal_alignment = 1
 layout_mode = 2
 theme = ExtResource("10_o5yvi")
 text = "XXXX"
+horizontal_alignment = 1
+
+[node name="Tutorial" type="CanvasLayer" parent="Level/UI"]
+
+[node name="WASD" type="Control" parent="Level/UI/Tutorial"]
+layout_mode = 3
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = 104.0
+offset_right = 768.0
+offset_bottom = 104.0
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="W" type="TextureRect" parent="Level/UI/Tutorial/WASD"]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 256.0
+offset_right = 1056.0
+offset_bottom = 1056.0
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("13_85qyi")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="A" type="TextureRect" parent="Level/UI/Tutorial/WASD"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 320.0
+offset_right = 992.0
+offset_bottom = 1120.0
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("14_iivbl")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="S" type="TextureRect" parent="Level/UI/Tutorial/WASD"]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 320.0
+offset_right = 1056.0
+offset_bottom = 1120.0
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("15_7nbq1")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="D" type="TextureRect" parent="Level/UI/Tutorial/WASD"]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 320.0
+offset_right = 1120.0
+offset_bottom = 1120.0
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("16_exi56")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="Movement" type="Label" parent="Level/UI/Tutorial/WASD"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 208.0
+offset_right = 384.0
+offset_bottom = 240.0
+theme = ExtResource("10_o5yvi")
+text = "MOVEMENT"
+horizontal_alignment = 1
+
+[node name="SPACE" type="Control" parent="Level/UI/Tutorial"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 800.0
+offset_top = -88.0
+offset_right = 840.0
+offset_bottom = -48.0
+
+[node name="TextureRect" type="TextureRect" parent="Level/UI/Tutorial/SPACE"]
+layout_mode = 0
+offset_left = 208.0
+offset_top = 512.0
+offset_right = 308.0
+offset_bottom = 552.0
+scale = Vector2(1.6, 1.6)
+texture = ExtResource("17_7t8sx")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="Dash" type="Label" parent="Level/UI/Tutorial/SPACE"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 400.0
+offset_right = 384.0
+offset_bottom = 432.0
+theme = ExtResource("10_o5yvi")
+text = "DASH"
 horizontal_alignment = 1
 
 [node name="Background" type="CanvasLayer" parent="Level"]
