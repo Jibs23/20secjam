@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://mim2qq1ln0tl"
+path="res://.godot/imported/itch_thumbnail.aseprite-55f1eba5e0d69e571ed7af82d70313d9.res"
+
+[deps]
+
+source_file="res://Aseprite/itch_thumbnail.aseprite"
+dest_files=["res://.godot/imported/itch_thumbnail.aseprite-55f1eba5e0d69e571ed7af82d70313d9.res"]
+
+[params]
+

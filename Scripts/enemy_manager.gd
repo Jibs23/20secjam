@@ -127,3 +127,7 @@ func enemy_death_effect(enemy:Character2D, hit_angle:float) -> void:
 	death_effect.scale = Vector2(enemy.death_effect_scale, enemy.death_effect_scale)
 	print("Death effect rotation (radians): ", hit_angle, " | degrees: ", rad_to_deg(hit_angle))
 	add_child(death_effect)
+
+func _reset_enemy_counts() -> void:
+	for resource_enemy in enemies:
+		resource_enemy.enemy_count = 0

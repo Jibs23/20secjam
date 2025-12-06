@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://d35vcl273s34i"]
+[gd_scene load_steps=27 format=3 uid="uid://d35vcl273s34i"]
 
 [ext_resource type="Script" uid="uid://d10y1mhqwveps" path="res://Scripts/game.gd" id="1_3dryh"]
 [ext_resource type="PackedScene" uid="uid://dg382sc10qhfs" path="res://Scenes/player.tscn" id="1_qxrlw"]
@@ -19,6 +19,24 @@
 [ext_resource type="Texture2D" uid="uid://583bov06w1m1" path="res://Assets/SimpleFlatKeys/Light/S-Key.png" id="15_7nbq1"]
 [ext_resource type="Texture2D" uid="uid://bls1nigit7o8r" path="res://Assets/SimpleFlatKeys/Light/D-Key.png" id="16_exi56"]
 [ext_resource type="Texture2D" uid="uid://b3j7dilg5smj1" path="res://Assets/SimpleFlatKeys/Light/Space-Key.png" id="17_7t8sx"]
+[ext_resource type="Shader" uid="uid://bqefhy3jrsob3" path="res://shaders/crt.gdshader" id="20_7nbq1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7nbq1"]
+shader = ExtResource("20_7nbq1")
+shader_parameter/resolution = Vector2(640, 400)
+shader_parameter/scan_line_amount = 0.1450000068875
+shader_parameter/warp_amount = 0.4730000224675
+shader_parameter/noise_amount = 0.01600000076
+shader_parameter/interference_amount = 0.32800001558
+shader_parameter/grille_amount = 0.066000003135
+shader_parameter/grille_size = 1.0
+shader_parameter/vignette_amount = 0.5150000244625
+shader_parameter/vignette_intensity = 1.0
+shader_parameter/aberation_amount = 0.8350000396625
+shader_parameter/roll_line_amount = 0.0
+shader_parameter/roll_speed = -8.0
+shader_parameter/scan_line_strength = -4.2409996314475
+shader_parameter/pixel_strength = -4.0
 
 [sub_resource type="Curve" id="Curve_i6g32"]
 _limits = [0.0, 30.0, 0.0, 20.0]
@@ -41,6 +59,17 @@ size = Vector2(1479.8, 103.79999)
 script = ExtResource("1_3dryh")
 
 [node name="Level" type="Node2D" parent="."]
+
+[node name="ShaderCRT" type="ColorRect" parent="Level"]
+visible = false
+top_level = true
+z_index = 4096
+z_as_relative = false
+material = SubResource("ShaderMaterial_7nbq1")
+offset_left = -307.19995
+offset_top = -192.0
+offset_right = 1587.2
+offset_bottom = 992.0
 
 [node name="Player" parent="Level" instance=ExtResource("1_qxrlw")]
 position = Vector2(640, 384)
